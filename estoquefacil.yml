@@ -15,7 +15,7 @@ paths:
       operationId: "produto.read_all"
       tags:
         - "Produtos"
-      summary: "Lê a lista de produtos do MK-Auth"
+      summary: "Lê a lista de produtos cadastrados no MK-Auth"
       responses:
         "200":
-          description: "Successfully read procduct list"
+          description: "Consulta realizada com sucesso!"
