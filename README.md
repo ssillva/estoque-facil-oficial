@@ -7,12 +7,13 @@ Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 ```console
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
-# Crie um ambiente virtual para facilitar
+# Crie um ambiente virtual para facilitar.
+# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON 3
 
 Execute no terminal a sequência a seguir:
 
 ```console
-$ python -m venv venv
+$ python3 -m venv venv
 $ source venv/bin/activate
 ```
 Então digite:
