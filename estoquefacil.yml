@@ -1,0 +1,21 @@
+# estoquefacil.yml
+
+openapi: 3.0.0
+info:
+  title: "Estoque Fácil REST API"
+  description: "Uma API REST sobre Controle de Estoque integrado ao Sistema MK-Auth"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+paths:
+  /produtos:
+    get:
+      operationId: "produto.read_all"
+      tags:
+        - "Produtos"
+      summary: "Lê a lista de produtos do MK-Auth"
+      responses:
+        "200":
+          description: "Successfully read procduct list"
