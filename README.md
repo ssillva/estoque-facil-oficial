@@ -8,21 +8,28 @@ Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
 # Crie um ambiente virtual para facilitar.
-# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. Python 2 não suporta a biblioteca connexion [swagger]
+# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
+
+Python 2 não suporta a biblioteca connexion [swagger]
 
 Execute no terminal a sequência a seguir:
-
+```console
+$ cd estoque-facil=oficial
+```
 ```console
 $ python3 -m venv venv
+
 $ source venv/bin/activate
+```
+Para confirmar que seu interpretador será Python versão 3
+```console
+$ alias python="/usr/bin/python3"
 ```
 Então digite:
 
 ```console
-$ cd estoque-facil=oficial
-```
+$ pip install --upgrade pip
 
-```console
 $ pip install -r requeriments.txt
 ```
 
