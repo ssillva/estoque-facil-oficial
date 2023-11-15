@@ -1,0 +1,10 @@
+Flask
+flask-marshmallow
+Flask-MySQLdb
+Flask-SQLAlchemy
+marshmallow
+marshmallow-sqlalchemy
+mysql-connector-python
+mysqlclient
+pathlib
+connexion[swagger-ui]

@@ -12,7 +12,7 @@ $ git clone https://github.com/ssillva/estoque-facil-oficial
 
 Python 2 não suporta a biblioteca connexion [swagger]
 
-Execute no terminal a sequência a seguir:
+Execute no terminal a sequência de comandos a seguir:
 ```console
 $ cd estoque-facil=oficial
 ```
@@ -21,7 +21,7 @@ $ python3 -m venv venv
 
 $ source venv/bin/activate
 ```
-Para confirmar que seu interpretador será Python versão 3
+Para confirmar que seu interpretador será Python versão 3, digite:
 ```console
 $ alias python="/usr/bin/python3"
 ```
@@ -36,9 +36,11 @@ $ pip install -r requeriments.txt
 Para executar o programa digite:
 
 ```console
-$ python app.py
+$ python3 app.py
 ```
 
+# Referências
+Real Python [Python REST APIs With Flask, Connexion, and SQLAlchemy](https://realpython.com/flask-connexion-rest-api-part-2)
 
 # Autor
 | [<img loading="lazy" src="https://avatars.githubusercontent.com/u/11522653?v=4" width=115><br><sub>Sandro Oliveira da Silva</sub>](https://github.com/ssillva) |
