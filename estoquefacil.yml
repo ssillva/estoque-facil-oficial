@@ -12,7 +12,7 @@ servers:
 paths:
   /produtos:
     get:
-      operationId: "produtos.read_all"
+      operationId: "produtos.produtos.read_all"
       tags:
         - "Produtos"
       summary: "Lê a lista de produtos cadastrados no MK-Auth"

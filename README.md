@@ -8,7 +8,7 @@ Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
 # Crie um ambiente virtual para facilitar.
-# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON 3
+# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. Python 2 não suporta a biblioteca connexion [swagger]
 
 Execute no terminal a sequência a seguir:
 
