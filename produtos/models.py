@@ -1,6 +1,6 @@
 from config import db, ma
 
-class Sis_produto(db.Model):
+class Produto(db.Model):
     __tablename__ = 'sis_produto'
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(255), nullable=False)
@@ -10,7 +10,7 @@ class Sis_produto(db.Model):
 
 class ProdutoSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = Sis_produto
+        model = Produto
         load_instance = True
         sqla_session = db.session
 

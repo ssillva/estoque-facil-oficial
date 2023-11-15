@@ -1,14 +1,14 @@
 from flask import render_template
 # Remove: import connexion
 import config
-from produtos.models import Sis_produto
+from produtos.models import Produto
 
 app = config.connex_app
 app.add_api(config.basedir / "estoquefacil.yml")
 
 @app.route("/")
 def home():
-    produtos = Sis_produto.query.all()
+    produtos = Produto.query.all()
     return render_template("home.html", produtos=produtos)
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RP Flask REST API</title>
+    <title>Estoque Fácil REST API</title>
 </head>
 <body>
     <h1>
@@ -13,7 +13,7 @@
     </h1>
     <ul>
         {% for produto in produtos %}
-        <li>{{ produto.nome }} {{ produto.descricao }}</li>
+        <li>{{ produto.id }} {{ produto.nome }} {{ produto.descricao }}</li>
         {% endfor %}
     </ul>
 </body>

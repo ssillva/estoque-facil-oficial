@@ -3,18 +3,50 @@
 openapi: 3.0.0
 info:
   title: "Estoque Fácil REST API"
-  description: "Uma API REST sobre Controle de Estoque integrado ao Sistema MK-Auth"
+  description: "Uma API REST sobre Controle de Estoque ao BD do Sistema MK-Auth"
   version: "1.0.0"
 
 servers:
   - url: "/api"
+
+components:
+  schemas:
+    Produto:
+      type: "object"
+      required:
+        - nome
+      properties:
+        nome:
+          type: "string"
+        descricao:
+          type: "string"
+        grupo:
+          type: "string"
+
 paths:
   /produtos:
     get:
-      operationId: "produtos.produtos.read_all"
+      operationId: "produtos.read_all"
       tags:
-        - "Produtos"
+        - "Produto"
       summary: "Lê a lista de produtos cadastrados no MK-Auth"
       responses:
         "200":
           description: "Consulta realizada com sucesso!"
+
+    post:
+      operationId: "produtos.create"
+      tags:
+        - Produtos
+      summary: "Insere um novo produto"
+      requestBody:
+        description: "Cria um novo produto"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "produto"
+              $ref: "#/components/schemas/Produto"
+      responses:
+        "201":
+          description: "Produto Cadastrado com sucesso!"
