@@ -18,7 +18,8 @@ $ cd estoque-facil=oficial
 ```
 ```console
 $ python3 -m venv venv
-
+```
+```console
 $ source venv/bin/activate
 ```
 Para confirmar que seu interpretador será Python versão 3, digite:
@@ -29,7 +30,8 @@ Então digite:
 
 ```console
 $ pip install --upgrade pip
-
+```
+```console
 $ pip install -r requeriments.txt
 ```
 
