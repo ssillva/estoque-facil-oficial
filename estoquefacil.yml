@@ -14,7 +14,7 @@ components:
     Produto:
       type: "object"
       required:
-        - nome
+        - "nome"
       properties:
         nome:
           type: "string"
@@ -22,6 +22,24 @@ components:
           type: "string"
         grupo:
           type: "string"
+
+    Item:
+      type: "object"
+      required:
+        - "mac"
+      properties:
+        mac:
+          type: "string"
+        fonte:
+          type: "string"
+        volts:
+          type: "integer"
+        ampere:
+          type: "number"
+        obs:
+          type: "string"
+        produto_id:
+          type: "integer"
 
   parameters:
     id:
@@ -32,13 +50,21 @@ components:
       schema:
         type: "integer"
 
+    id_patrimonio:
+      name: "id_patrimonio"
+      description: "Buscar Item pelo id do patrimônio"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
 paths:
   /produtos:
     get:
       operationId: "produtos.read_all"
       tags:
-        - "Produto"
-      summary: "Lê a lista de produtos cadastrados no MK-Auth"
+        - "Produtos"
+      summary: "Lista os produtos cadastrados no MK-Auth"
       responses:
         "200":
           description: "Consulta realizada com sucesso!"
@@ -65,7 +91,7 @@ paths:
       operationId: "produtos.read_one"
       tags:
         - Produtos
-      summary: "Busca um produto"
+      summary: "Buscar um produto"
       parameters:
         - $ref: "#/components/parameters/id"
       responses:
@@ -88,3 +114,61 @@ paths:
             schema:
               x-body-name: "produto"
               $ref: "#/components/schemas/Produto"
+
+
+  /itens:
+    get:
+      operationId: "itens.read_all"
+      tags:
+        - Itens
+      summary: "Listar os itens cadastrados no MK-Auth"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso!"
+
+    post:
+      operationId: "itens.create"
+      tags:
+        - Itens
+      summary: "Insere um novo item"
+      requestBody:
+        description: "Cadastra um novo item"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "item"
+              $ref: "#/components/schemas/Item"
+      responses:
+        "201":
+          description: "Item Cadastrado com sucesso!"
+
+
+  /itens/{id_patrimonio}:
+    get:
+      operationId: "itens.read_one"
+      tags:
+        - Itens
+      summary: "Buscar um item cadastrado"
+      parameters:
+        - $ref: "#/components/parameters/id_patrimonio"
+      responses:
+        "200":
+          description: "Item encontrado com sucesso"
+
+    put:
+      tags:
+        - Itens
+      operationId: "itens.update"
+      summary: "Alterar item cadastrado"
+      parameters:
+        - $ref: "#/components/parameters/id_patrimonio"
+      responses:
+        "200":
+          description: "Alteração efetuada com sucesso"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "item"
+              $ref: "#/components/schemas/Item"

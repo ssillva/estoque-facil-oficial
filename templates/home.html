@@ -12,8 +12,8 @@
 
     </h1>
     <ul>
-        {% for produto in produtos %}
-        <li>{{ produto.id }} {{ produto.nome }} {{ produto.descricao }}</li>
+        {% for item in itens %}
+        <li>{{ item.id_patrimonio }} {{ item.data_cadastro }} {{ item.mac }}</li>
         {% endfor %}
     </ul>
 </body>

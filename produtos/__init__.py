@@ -1,7 +1,7 @@
 from flask import abort, make_response
 
 from config import db
-from .models import Produto, produtos_schema, produto_schema
+from models import Produto, produtos_schema, produto_schema
 
 
 def read_all():
