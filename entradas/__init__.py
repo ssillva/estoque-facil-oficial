@@ -1,25 +1,25 @@
 from flask import abort, make_response
 
 from config import db
-from models import Item, itens_schema, item_schema
+from models import Entrada, entradas_schema, entrada_schema
 
 
 def read_all():
-    itens = Item.query.all()
-    return itens_schema.dump(itens)
+    entradas = Entrada.query.all()
+    return entradas_schema.dump(entradas)
 
 
-def create(item):
-    mac = item.get("mac")
-    existing_item = Item.query.filter(Item.mac == mac).one_or_none()
+def create(entrada):
+    documento = entrada.get("documento")
+    existing_entrada = Entrada.query.filter(Entrada.documento == documento).one_or_none()
 
-    if existing_item is None:
-        new_item = item_schema.load(item, session=db.session)
-        db.session.add(new_item)
+    if existing_entrada is None:
+        new_entrada = entrada_schema.load(entrada, session=db.session)
+        db.session.add(new_entrada)
         db.session.commit()
-        return item_schema.dump(new_item), 201
+        return entrada_schema.dump(new_entrada), 201
     else:
-        abort(406, f"O item com mac = {mac} possui cadastro no sistema!")
+        abort(406, f"O documento {documento} possui cadastro no sistema!")
 
 
 def read_one(id_patrimonio):

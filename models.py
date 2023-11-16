@@ -41,3 +41,27 @@ class ProdutoSchema(ma.SQLAlchemyAutoSchema):
 
 produto_schema = ProdutoSchema()
 produtos_schema = ProdutoSchema(many=True)
+
+
+class Entrada(db.Model):
+    __tablename__ = 'cse_entrada'
+
+    id_entrada = db.Column(db.Integer, primary_key=True)
+    data_entrada = db.Column(db.Date, nullable=False, default=date.today)
+    documento = db.Column(db.String(45), nullable=False)
+    qtd = db.Column(db.Integer, primary_key=False)
+    motivo = db.Column(db.String(100), nullable=False)
+    origem = db.Column(db.String(80), nullable=False)
+    obs_entrada = db.Column(db.String(455), nullable=False)
+    user_id = db.Column(db.Integer, nullable=False)
+    fornecedor_id = db.Column(db.Integer, nullable=False)
+    #user_id = db.Column(db.Integer, db.ForeignKey('sis_acesso.idacesso'))
+
+class EntradaSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Entrada
+        load_instance = True
+        sqla_session = db.session
+
+entrada_schema = EntradaSchema()
+entradas_schema = EntradaSchema(many=True)
