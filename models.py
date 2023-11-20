@@ -52,6 +52,7 @@ class Entrada(db.Model):
     qtd = db.Column(db.Integer, primary_key=False)
     motivo = db.Column(db.String(100), nullable=False)
     origem = db.Column(db.String(80), nullable=False)
+    destino = db.Column(db.String(80), nullable=False)
     obs_entrada = db.Column(db.String(455), nullable=False)
     user_id = db.Column(db.Integer, nullable=False)
     fornecedor_id = db.Column(db.Integer, nullable=False)
