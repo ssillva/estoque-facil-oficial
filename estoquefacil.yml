@@ -40,6 +40,30 @@ components:
           type: "string"
         produto_id:
           type: "integer"
+    
+    Movimento:
+      type: "object"
+      required:
+        - "item_id"
+      properties:
+        documento:
+          type: "string"
+        qtd:
+          type: "integer"
+        motivo:
+          type: "string"
+        origem:
+          type: "string"
+        destino:
+          type: "string"
+        tipo:
+          type: "string"
+        obs_movimento:
+          type: "string"
+        item_id:
+          type: "integer"
+        user_id:
+          type: "integer"
 
   parameters:
     id:
@@ -52,12 +76,19 @@ components:
 
     id_patrimonio:
       name: "id_patrimonio"
-      description: "Buscar Item pelo id do patrimônio"
+      description: "Busca Item pelo id do patrimônio"
       in: path
       required: True
       schema:
         type: "integer"
-
+    
+    id_movimento:
+      name: "id_movimento"
+      description: "Busca movimento pelo id do movimento"
+      in: path
+      required: True
+      schema:
+        type: "integer"
 paths:
   /produtos:
     get:
@@ -68,7 +99,7 @@ paths:
       responses:
         "200":
           description: "Consulta realizada com sucesso!"
-
+  
     post:
       operationId: "produtos.create"
       tags:
@@ -97,7 +128,7 @@ paths:
       responses:
         "200":
           description: "Produto encontrado com sucesso"
-
+  
     put:
       tags:
         - Produtos
@@ -121,7 +152,7 @@ paths:
       operationId: "itens.read_all"
       tags:
         - Itens
-      summary: "Listar os itens cadastrados no MK-Auth"
+      summary: "Lista os itens cadastrados no MK-Auth"
       responses:
         "200":
           description: "Consulta realizada com sucesso!"
@@ -155,7 +186,7 @@ paths:
       responses:
         "200":
           description: "Item encontrado com sucesso"
-
+  
     put:
       tags:
         - Itens
@@ -172,3 +203,81 @@ paths:
             schema:
               x-body-name: "item"
               $ref: "#/components/schemas/Item"
+  
+    delete:
+      tags:
+        - Itens
+      operationId: "itens.delete"
+      summary: "Exclui um item"
+      parameters:
+        - $ref: "#/components/parameters/id_patrimonio"
+      responses:
+        "204":
+          description: "Item excluído com sucesso!"
+
+  /movimento:
+    get:
+      operationId: "movimento.read_all"
+      tags:
+        - "Movimento"
+      summary: "Lista a movimentação de itens cadastrados no MK-Auth"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso!"
+  
+    post:
+      operationId: "movimento.create"
+      tags:
+        - Movimento
+      summary: "Insere uma nova movimentação"
+      requestBody:
+        description: "Movimento de Entrada ou Saida no sistema"
+        required: True
+        content:
+          application/json:
+            schema:
+              x-body-name: "movimento"
+              $ref: "#/components/schemas/Movimento"
+      responses:
+        "201":
+          description: "Movimento Cadastrado com sucesso!"
+
+  /movimento/{id_movimento}:
+    get:
+      operationId: "movimento.read_one"
+      tags:
+        - Movimento
+      summary: "Lista um movimento de entrada ou saida"
+      parameters:
+        - $ref: "#/components/parameters/id_movimento"
+      responses:
+        "200":
+          description: "Movimento encontrado!"
+  
+    put:
+      tags:
+        - Movimento
+      operationId: "movimento.update"
+      summary: "Altera um produto"
+      parameters:
+        - $ref: "#/components/parameters/id_movimento"
+      responses:
+        "200":
+          description: "Alteração efetuada com sucesso"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              x-body-name: "movimento"
+              $ref: "#/components/schemas/Movimento"
+    
+    delete:
+      tags:
+        - Movimento
+      operationId: "movimento.delete"
+      summary: "Exclui um movimento de entrada ou saida"
+      parameters:
+        - $ref: "#/components/parameters/id_movimento"
+      responses:
+        "204":
+          description: "Movimento excluído com sucesso!"

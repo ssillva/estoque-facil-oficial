@@ -1,24 +1,33 @@
-from flask import abort, make_response, request
+from config import db, login_manager
+from werkzeug.security import generate_password_hash, check_password_hash
+from models import User, user_schema, users_schema
 
-from config import db
-from models import Item, itens_schema, item_schema
+@login_manager.user_loader
+def get_user(user_id):
+    return User.query.filter_by(id=user_id).first()
 
+
+def verify_password(user):
+    password = User.query.filter_by(User.sha == pwd)
+    return check_password_hash(self.password, pwd)
 
 def read_all():
     itens = Item.query.all()
     return itens_schema.dump(itens)
 
 
-def create():
-    item_req_json = request.get_json()
-    existing_item = Item.query.filter(Item.mac == item_req_json["mac"]).one_or_none()
+def create(item):
+    mac = item.get("mac")
+    existing_item = Item.query.filter(Item.mac == mac).one_or_none()
+
     if existing_item is None:
-        new_item = item_schema.load(item_req_json, session=db.session)
+        new_item = item_schema.load(item, session=db.session)
         db.session.add(new_item)
         db.session.commit()
         return item_schema.dump(new_item), 201
     else:
-        abort(406, f"Este MAC já foi cadastro no sistema!")
+        abort(406, f"O item com mac = {mac} possui cadastro no sistema!")
+
 
 def read_one(id_patrimonio):
     item = Item.query.filter(Item.id_patrimonio == id_patrimonio).one_or_none()
@@ -29,12 +38,11 @@ def read_one(id_patrimonio):
         abort(404, f"Produto não encontrado")
 
 
-def update(id_patrimonio):
-    item_req_json =  request.get_json()
+def update(id_patrimonio, item):
     existing_item = Item.query.filter(Item.id_patrimonio == id_patrimonio).one_or_none()
 
     if existing_item:
-        update_item = item_schema.load(item_req_json, session=db.session)
+        update_item = item_schema.load(item, session=db.session)
         existing_item.mac = update_item.mac
         existing_item.fonte = update_item.fonte
         existing_item.volts = update_item.volts

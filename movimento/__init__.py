@@ -1,4 +1,4 @@
-from flask import abort, make_response
+from flask import abort, make_response, request
 
 from config import db
 from models import Movimento, movimentos_schema, movimento_schema
@@ -9,9 +9,11 @@ def read_all():
     return movimentos_schema.dump(movimentos)
 
 
-def create(movimento):
-    id_movimento = movimento.get("id_movimento")
-    existing_movimento = Movimento.query.filter(Movimento.id_movimento == id_movimento).one_or_none()
+def create():
+    movimento = request.get_json()
+    documento = movimento["documento"]
+    
+    existing_movimento = Movimento.query.filter(Movimento.documento == documento).one_or_none()
 
     if existing_movimento is None:
         new_movimento = movimento_schema.load(movimento, session=db.session)
@@ -19,7 +21,7 @@ def create(movimento):
         db.session.commit()
         return movimento_schema.dump(new_movimento), 201
     else:
-        abort(406, f"O movimento {id_movimento} possui cadastro no sistema!")
+        abort(406, f"O documento {documento} possui cadastro no sistema!")
 
 
 def read_one(id_movimento):
@@ -32,6 +34,7 @@ def read_one(id_movimento):
 
 
 def update(id_movimento, movimento):
+    movimento =  request.get_json()
     existing_item = Movimento.query.filter(Movimento.id_movimento == id_movimento).one_or_none()
 
     if existing_item:
@@ -43,7 +46,8 @@ def update(id_movimento, movimento):
         existing_item.destino = update_item.destino
         existing_item.tipo = update_item.tipo
         existing_item.obs_movimento = update_item.obs_movimento
-        existing_item.produto_id = update_item.produto_id
+        existing_item.item_id = update_item.item_id
+        existing_item.user_id = update_item.user_id
         db.session.merge(existing_item)
         db.session.commit()
         return movimento_schema.dump(existing_item), 201

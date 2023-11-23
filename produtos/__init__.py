@@ -1,4 +1,4 @@
-from flask import abort, make_response
+from flask import abort, make_response, request
 
 from config import db
 from models import Produto, produtos_schema, produto_schema
@@ -9,17 +9,18 @@ def read_all():
     return produtos_schema.dump(produtos)
 
 
-def create(produto):
-    nome = produto.get("nome")
+def create():
+    produto_req_json = request.get_json()
+    nome = produto_req_json["nome"]
     existing_produto = Produto.query.filter(Produto.nome == nome).one_or_none()
 
     if existing_produto is None:
-        new_produto = produto_schema.load(produto, session=db.session)
+        new_produto = produto_schema.load(produto_req_json, session=db.session)
         db.session.add(new_produto)
         db.session.commit()
         return produto_schema.dump(new_produto), 201
     else:
-        abort(406, f"O produto {nome} possui cadastro no sistema!")
+        abort(406, f"O produto {nome} já possui cadastro no sistema!")
 
 
 def read_one(id):
@@ -31,7 +32,9 @@ def read_one(id):
         abort(404, f"Produto não encontrado")
 
 
-def update(id, produto):
+def update(id):
+    produto = request.get_json()
+    id = produto["id"]
     existing_produto = Produto.query.filter(Produto.id == id).one_or_none()
 
     if existing_produto:

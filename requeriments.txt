@@ -10,3 +10,4 @@ pathlib
 connexion[swagger-ui]
 connexion[flask]
 connexion[uvicorn]
+flask_login

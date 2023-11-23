@@ -1,20 +1,151 @@
-<!-- templates/home.html -->
+{% extends 'base.html' %}
+{% include 'header.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Estoque Fácil REST API</title>
-</head>
-<body>
-    <h1>
-        <a href="http://localhost:8000/api/ui/">Testar API</a>
+{% block title %}{% endblock %}
 
-    </h1>
-    <ul>
-        {% for item in itens %}
-        <li>{{ item.id_patrimonio }} {{ item.data_cadastro }} {{ item.mac }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col md-12">
+            <div class="jumbotron p-3">
+                <h2> <b>Gerenciamento de Itens de Equipamentos</b> <button type="button" class="btn btn-success float-end"
+                        data-bs-toggle="modal" data-bs-target="#mymodal"><i class="bi bi-pencil-square"> </i>Adicionar novo Item</button> </h2>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close float-end" data-bs-dismiss="alert" aria-label="close">
+                        <span class="icon">x</span>
+                    </button>
+                    {{message}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                <table class="table table-hover">
+                    <tr>
+                        <td>Patrimônio</td>
+                        <td>Criado em</td>
+                        <td>Produto</td>
+                        <td>MAC</td>
+                        <td>Fonte</td>
+                        <td>Volts</td>
+                        <td>Ampere</td>
+                        <td>Ação</td>
+                    </tr>
+                    {% for row in itens %}
+                    <tr>
+                        <td>{{row.id_patrimonio}}</td>
+                        <td>{{row.data_cadastro}}</td>
+                        <td>{{row.produto_id}}</td>
+                        <td>{{row.mac}}</td>
+                        <td>{{row.fonte}}</td>
+                        <td>{{row.volts}}</td>
+                        <td>{{row.ampere}}</td>
+                        <td>
+                            <a href="/api/itens/update/{{row.id_patrimonio}}" class="btn btn-warning btn-xs" data-bs-toggle="modal"
+                                data-bs-target="#modaledit{{row.id_patrimonio}}"><i class="bi bi-arrow-clockwise"> </i>Editar</a>
+                            <a href="/api/itens/delete/{{row.id_patrimonio}}" class="btn btn-danger btn-xs"
+                                onclick="return confirm('Tem certeza que deseja deletar esse item')"><i class="bi bi-trash"> </i>Deletar</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="modaledit{{row.id_patrimonio}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Editar Itens</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{url_for('/api/itens/update')}}" method="POST">
+                                        <div class="form-group">
+                                            <label>Descrição</label>
+                                            <input type="hidden" name="id_patrimonio" value="{{row.id_patrimonio}}">
+                                            <input type="number" class="form-control" name="produto_id" value="{{row.produto_id}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>MAC</label>
+                                            <input type="text"  class="form-control" name="mac"
+                                                value="{{row.mac}}" data-inputmask="'mask': '***:***:***:***'">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Fonte</label>
+                                            <input type="text" class="form-control" name="fonte" value="{{row.fonte}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Volts</label>
+                                            <input type="number" class="form-control" name="volts" value="{{row.volts}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Ampere</label>
+                                            <input type="number" step="any" min="0" max="100" class="form-control" name="ampere" value="{{row.ampere}}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Salvar</button>
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </table>
+            </div>
+
+            <div class="modal fade" id="mymodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cadastro de Itens</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{url_for('/api/itens')}}" method="POST">
+                                <div class="form-group">
+                                    <label>Produto</label>
+                                    <!--select class="form-select" aria-label="Default select example" id="produto_id" data-live-search="true" title="Selecione um produto" name="produto_id" required="1">
+                                        <option selected>Selecione o produto</option>
+                                        {% for row in produto %}
+                                        <option value="{{row.produto_id}}">{{row.produto_name}}</option>
+                                        {% endfor %}
+
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select-->
+                                </div>
+                                <div class="form-group">
+                                    <label>MAC</label>
+                                    <input type="text" class="form-control" name="mac" required='1' data-inputmask="'mask': '***:***:***:***'">
+                                </div>
+                                <div class="form-group">
+                                    <label>Fonte</label>
+                                    <input type="text" class="form-control" name="fonte" required='1'>
+                                </div>
+                                <div class="form-group">
+                                    <label>Volts</label>
+                                    <input type="number" class="form-control" name="volts" required='1'>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ampere</label>
+                                    <input type="number" step="any" min="0" max="100" class="form-control" name="ampere" required='1'>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Salvar</button>
+                                    <button type="button" class="btn btn-secondary float-end"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
