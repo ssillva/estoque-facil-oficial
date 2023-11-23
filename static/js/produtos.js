@@ -10,7 +10,7 @@ $(document).ready(function() {
         //     $('.dados-produtos').append(html);  //Append the HTML
         // });  
 
-        let html = "<select>";
+        let html = "<select class=\"selectpicker\" data-show-subtext=\"true\" data-live-search=\"true\"'>";
         $.each(data, function (index, data) {
             html += "<option value='"+data.id+"'>"+data.id + ": " +data.grupo+"</option>";
         });  

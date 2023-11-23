@@ -1,15 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{{ url_for('static', filename='js/jquery-3.7.1.js') }}"></script>  
-    <title>Estoque do Sandro</title>
-</head>
-<body>
-   
-    <div class="dados-produtos"></div>
+<html>
+  <head>
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.js') }}"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+  </head>
 
-</body>
+  <div class="container">
+    <div class="row">
+      <h2>Estoque Fácil</h2>
+      <hr />
+    </div>
+
+    <div class="dados-produtos">  </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/produtos.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
 </html>
-<script src="{{ url_for('static', filename='js/produtos.js') }}"></script>

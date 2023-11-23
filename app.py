@@ -8,8 +8,8 @@ app.add_api(basedir / "estoquefacil.yml")
 
 @app.route("/")
 def home():
-    #itens = Item.query.all()
-    return render_template("teste.html") #, itens=itens)
+    itens = Item.query.all()
+    return render_template("teste.html", itens=itens)
 
 @app.app.before_request
 def create_tables():
