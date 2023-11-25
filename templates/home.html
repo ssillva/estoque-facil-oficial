@@ -44,10 +44,12 @@
                         <td>{{row.volts}}</td>
                         <td>{{row.ampere}}</td>
                         <td>
+                            <!--
                             <a href="http://localhost:8000/api/itens/{{row.id_patrimonio}}" class="btn btn-warning btn-xs" data-bs-toggle="modal"
                                 data-bs-target="#modaledit{{row.id_patrimonio}}"><i class="bi bi-arrow-clockwise"> </i>Editar</a>
                             <a href="http://localhost:8000/api/itens/{{row.id_patrimonio}}" class="btn btn-danger btn-xs"
                                 onclick="return confirm('Tem certeza que deseja deletar esse item')"><i class="bi bi-trash"> </i>Deletar</a>
+                            -->
                         </td>
                     </tr>
                     <div class="modal fade" id="modaledit{{row.id_patrimonio}}" tabindex="-1" aria-labelledby="exampleModalLabel"

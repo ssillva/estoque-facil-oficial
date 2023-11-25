@@ -2,6 +2,8 @@ from flask import render_template
 # Remove: import connexion
 from config import db, app, ma, connex_app, basedir
 from models import Item
+from importlib import reload
+import sys
 
 app = connex_app
 app.add_api(basedir / "estoquefacil.yml")
@@ -21,3 +23,4 @@ if __name__ == "__main__":
     #db.init_app(app.app)
     ma.init_app(app)
     app.run(host="0.0.0.0", port=8000)
+    reload(sys)
