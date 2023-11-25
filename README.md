@@ -1,6 +1,9 @@
 # Projeto para disciplina de Sistemas Distribuídos / Estoque Fácil
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
+
+Projeto que visa atender os requisitos para sistema de controle e gestão de Produtos e Itens em cooperação com Sistema MK-Auth para provedores de Internet
+
 ## Documentação
 ### Diagrama de Componentes
 ![Diagrama de Componentes](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/DIagrama%20Componente%20EF.jpg)
