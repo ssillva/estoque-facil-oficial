@@ -128,7 +128,7 @@ paths:
       responses:
         "200":
           description: "Produto encontrado com sucesso"
-  
+  /produtos/{id}/edit:
     put:
       tags:
         - Produtos

@@ -1,22 +1,158 @@
-<!-- templates/home.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Estoque Fácil REST API</title>
+    <title>Tabela de Produtos</title>
+    <!-- Link para Bootstrap (opcional) -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>
-        <a href="http://localhost:8000/api/ui/">Testar API</a>
 
-    </h1>
-    <ul>
-        {% for item in itens %}
-        <li>{{ item.id_patrimonio }} {{ item.data_cadastro }} {{ item.mac }}</li>
-        {% endfor %}
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{url_for('home')}}">Estoque Fácil</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Itens</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="{{url_for('add_produto')}}" class="btn btn-success ml-auto">Adicionar Produto</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2>Tabela de Produtos</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Grupo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaProdutos">
+                <!-- Aqui serão inseridos os dados da API -->
+            </tbody>
+        </table>
+    </div>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdicionarProduto">
+        Adicionar Produto
+    </button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const formEditarProduto = document.getElementById('formEditarProduto');
+
+            formEditarProduto.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const produtoId = document.getElementById('produtoId').value;
+                const nome = document.getElementById('editarNome').value;
+                const descricao = document.getElementById('editarDescricao').value;
+                const grupo = document.getElementById('editarGrupo').value;
+
+                const dadosProduto = {
+                    nome: nome,
+                    descricao: descricao,
+                    grupo: grupo
+                };
+
+                editarProduto(produtoId, dadosProduto);
+            });
+
+            function editarProduto(produtoId, dadosProduto) {
+                fetch(`http://localhost:8000/api/produtos/${produtoId}/edit`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosProduto)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Produto editado com sucesso!');
+                        // Lógica adicional após a edição bem-sucedida, se necessário
+                    } else {
+                        alert('Erro ao editar o produto.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao editar o produto:', error);
+                    alert('Erro ao editar o produto.');
+                });
+            }
+        });
+    </script>
+    <script>
+        function deletarProduto(id) {
+                if (confirm('Tem certeza que deseja deletar este produto?')) {
+                    fetch(`http://localhost:8000/api/produtos/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log(`Produto com ID ${id} deletado com sucesso.`);
+                            carregarProdutos(); // Recarrega a tabela após a exclusão do produto
+                        } else {
+                            console.error('Erro ao deletar o produto.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Ocorreu um erro:', error);
+                    });
+                }
+            }
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabelaProdutos = document.querySelector('.table');
+
+            function carregarProdutos() {
+                // Fazendo a requisição para a API e preenchendo a tabela
+                fetch('http://localhost:8000/api/produtos')
+                    .then(response => response.json())
+                    .then(data => {
+                        tabelaProdutos.innerHTML = ""; // Limpa os dados existentes na tabela
+                        data.forEach(produto => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${produto.id}</td>
+                                <td>${produto.nome}</td>
+                                <td>${produto.descricao}</td>
+                                <td>${produto.grupo}</td>
+                                <td>
+                                    <button onclick="editarProduto(${produto.id})" class="btn btn-warning btn-sm">Editar</button>
+                                    <button onclick="deletarProduto(${produto.id})" class="btn btn-danger btn-sm">Deletar</button>
+                                </td>
+                            `;
+                            tabelaProdutos.appendChild(tr);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Ocorreu um erro:', error);
+                    });
+            }
+
+            carregarProdutos(); // Carrega os produtos inicialmente ao carregar a página
+
+            function editarProduto(id) {
+                console.log(`Editar produto com ID ${id}`);
+                // Aqui você pode implementar a lógica para editar o produto com o ID fornecido
+            }
+
+            
+            
+        });
+    </script>
+
+    <!-- Script do Bootstrap (opcional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
-<script src="{{ url_for('static', filename='js/jquery-3.7.1.js') }}"></script>
-<script src="{{ url_for('static', filename='js/produtos.js') }}"></script>

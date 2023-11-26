@@ -2,14 +2,6 @@ $(document).ready(function() {
     $.ajax({
         url: "http://localhost:8000/api/produtos"
     }).then(function(data) {
-        // $.each(data, function (index, data) {
-        //     let 
-        //     html = "<div><div>ID: " + data.id + "</div>" + 
-        //     "<div>GRUPO: " + data.grupo + "</div></div>";
-
-        //     $('.dados-produtos').append(html);  //Append the HTML
-        // });  
-
         let html = "";
         $.each(data, function (index, data) {
             html += "<td>"+data.id+"</td>"+
@@ -22,7 +14,6 @@ $(document).ready(function() {
                             onclick=\"return confirm('Tem certeza que deseja deletar esse item')\"><i class=\"bi bi-trash\"> </i>Deletar</a></td>";
                           
         });  
-        //html += "</tr>";
         $('.teste').append(html);  //Append the HTML
 
     });
