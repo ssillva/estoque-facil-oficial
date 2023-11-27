@@ -1,5 +1,5 @@
-from flask import abort, make_response, request
-
+from flask import abort, make_response, request, jsonify
+from itens import Item, item_schema, itens_schema
 from config import db
 from models import Produto, produtos_schema, produto_schema
 
@@ -34,7 +34,6 @@ def read_one(id):
 
 def update(id):
     produto = request.get_json()
-    id = produto["id"]
     existing_produto = Produto.query.filter(Produto.id == id).one_or_none()
 
     if existing_produto:
@@ -58,3 +57,21 @@ def delete(id):
         return make_response(f"{id} Apagado com Sucesso", 200)
     else:
         abort(404, f"Produto não encontrado {id} ")
+
+def get_itens_by_produto(id):
+    try:
+        # Encontre o produto pelo ID
+        existing_produto = Produto.query.filter(Produto.id == id).one_or_none()
+        if existing_produto:
+            # Encontre os itens associados a esse produto
+            itens = Item.query.filter_by(produto_id=id).all()
+            if not itens:
+                return make_response(f'Item não encontrado', 404)
+            return itens_schema.dump(itens)
+        else:
+            abort(404, f"Produto não encontrado {id} ")
+        
+        
+    
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500

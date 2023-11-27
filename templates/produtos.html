@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Produtos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegador de Páginas-->
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">Estoque Fácil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/itens">Itens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#section2">Movimentação</a>
+                </li>
+                <!-- Adicione mais itens conforme necessário -->
+            </ul>
+        </div>
+    </nav>
+    
+<div class="container mt-5">
+    <h2>Lista de Produtos</h2>
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalAdd">Adicionar Produto</button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Grupo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody"></tbody>
+    </table>
+</div>
+
+<!-- Modal Adicionar Produto -->
+<div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalAddLabel">Adicionar Produto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formAdicionarProduto">
+                    <div class="form-group">
+                        <label for="nomeNovoProduto">Nome:</label>
+                        <input type="text" class="form-control" id="nomeNovoProduto" placeholder="Nome do produto">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricaoNovoProduto">Descrição:</label>
+                        <input type="text" class="form-control" id="descricaoNovoProduto" placeholder="Descrição do produto">
+                    </div>
+                    <div class="form-group">
+                        <label for="grupoNovoProduto">Grupo:</label>
+                        <input type="text" class="form-control" id="grupoNovoProduto" placeholder="Grupo do produto">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="adicionarProduto()">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Editar Produto -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditLabel">Editar Produto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarProduto">
+                    <input type="hidden" id="editProductId"> <!-- Campo oculto para armazenar o ID do produto -->
+                    <div class="form-group">
+                        <label for="nomeEditProduto">Nome:</label>
+                        <input type="text" class="form-control" id="nomeEditProduto" placeholder="Nome do produto">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricaoEditProduto">Descrição:</label>
+                        <input type="text" class="form-control" id="descricaoEditProduto" placeholder="Descrição do produto">
+                    </div>
+                    <div class="form-group">
+                        <label for="grupoEditProduto">Grupo:</label>
+                        <input type="text" class="form-control" id="grupoEditProduto" placeholder="Grupo do produto">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="editarProduto()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDetalhesItens" tabindex="-1" role="dialog" aria-labelledby="modalDetalhesItensLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDetalhesItensLabel">Detalhes dos Itens cadastrados do Produto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="detalhesItensProduto">
+                <!-- Aqui serão exibidos os detalhes dos itens -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts JavaScript -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Função para carregar os produtos da API
+    function carregarProdutos() {
+        $.ajax({
+            url: "http://localhost:8000/api/produtos",
+            method: "GET",
+            success: function(data) {
+                // Limpar tabela antes de adicionar os produtos
+                $("#productTableBody").empty();
+
+                // Iterar sobre os produtos e adicionar à tabela
+                $.each(data, function(index, product) {
+                    let row = `<tr>
+                        <td>${product.id}</td>
+                        <td>${product.nome}</td>
+                        <td>${product.descricao}</td>
+                        <td>${product.grupo}</td>
+                        <td>
+                            <button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#modalEdit' onclick='preencherCamposEdicao(${product.id}, "${product.nome}", "${product.descricao}", "${product.grupo}")'>Editar</button>
+                            <button type='button' class='btn btn-danger btn-sm' onclick='excluirProduto(${product.id})'>Excluir</button>
+                            <button type='button' class='btn btn-info btn-sm' onclick='exibirDetalhes(${product.id})'>Detalhes</button>
+                        </td>
+                    </tr>`;
+
+                    $("#productTableBody").append(row);
+                });
+            },
+            error: function() {
+                alert("Erro ao carregar produtos.");
+            }
+        });
+    }
+    function adicionarProduto() {
+        let novoProduto = {
+            nome: $("#nomeNovoProduto").val(),
+            descricao: $("#descricaoNovoProduto").val(),
+            grupo: $("#grupoNovoProduto").val()
+        };
+
+        $.ajax({
+            url: "http://localhost:8000/api/produtos",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(novoProduto),
+            success: function(response) {
+                alert("Produto adicionado com sucesso!");
+                carregarProdutos();
+                $("#nomeNovoProduto").val("");
+                $("#descricaoNovoProduto").val("");
+                $("#grupoNovoProduto").val("");
+                $("#modalAdd").modal("hide");
+            },
+            error: function() {
+                alert("Erro ao adicionar produto.");
+            }
+        });
+    }
+
+    // Função para preencher os campos do modal de edição com os dados do produto
+    function preencherCamposEdicao(id, nome, descricao, grupo) {
+        $("#editProductId").val(id);
+        $("#nomeEditProduto").val(nome);
+        $("#descricaoEditProduto").val(descricao);
+        $("#grupoEditProduto").val(grupo);
+    }
+
+    // Função para editar um produto
+    function editarProduto() {
+        let id = $("#editProductId").val();
+        let produtoAtualizado = {
+            nome: $("#nomeEditProduto").val(),
+            descricao: $("#descricaoEditProduto").val(),
+            grupo: $("#grupoEditProduto").val()
+        };
+
+        $.ajax({
+            url: `http://localhost:8000/api/produtos/${id}`,
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(produtoAtualizado),
+            success: function(response) {
+                alert("Produto atualizado com sucesso!");
+                carregarProdutos();
+                $("#modalEdit").modal("hide");
+            },
+            error: function() {
+                alert("Erro ao atualizar produto.");
+            }
+        });
+    }
+
+    // Função para excluir um produto
+    function excluirProduto(id) {
+        if (confirm("Tem certeza que deseja excluir este produto?")) {
+            $.ajax({
+                url: `http://localhost:8000/api/produtos/${id}`,
+                method: "DELETE",
+                success: function(response) {
+                    alert("Produto excluído com sucesso!");
+                    carregarProdutos();
+                },
+                error: function() {
+                    alert("Erro ao excluir produto.");
+                }
+            });
+        }
+    }
+    // Função para exibir detalhes dos itens de um produto específico
+    function exibirDetalhes(produtoId) {
+        // Realizar requisição para buscar os itens do produto específico
+        $.ajax({
+            url: `http://localhost:8000/api/produtos/${produtoId}/itens`, // Endpoint para buscar os itens do produto
+            method: "GET",
+            success: function(data) {
+                // Limpar a área de detalhes antes de preenchê-la
+                $("#detalhesItensProduto").empty();
+
+                // Preencher a área de detalhes com os dados retornados
+                data.forEach(function(item) {
+                    var detalhe = `<p>Patrimônio: ${item.id_patrimonio}, MAC: ${item.mac}, Obs: ${item.obs}</p>`;
+                    $("#detalhesItensProduto").append(detalhe);
+                });
+
+                // Abrir um modal, por exemplo, para exibir os detalhes dos itens
+                // Aqui você pode usar um modal ou qualquer outra forma de exibição que desejar
+                // Neste exemplo, estou utilizando um alert para mostrar os detalhes
+                //alert("Detalhes dos Itens: ", $("#detalhesItensProduto").html());
+                $('#modalDetalhesItens').modal('show');
+            },
+            error: function() {
+                alert("Não há itens para esse produto.");
+            }
+        });
+    }
+    
+    $(document).ready(function() {
+        carregarProdutos();
+    });
+</script>
+</body>
+</html>

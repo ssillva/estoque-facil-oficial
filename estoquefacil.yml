@@ -128,7 +128,7 @@ paths:
       responses:
         "200":
           description: "Produto encontrado com sucesso"
-  /produtos/{id}/edit:
+    
     put:
       tags:
         - Produtos
@@ -145,6 +145,29 @@ paths:
             schema:
               x-body-name: "produto"
               $ref: "#/components/schemas/Produto"
+              
+    delete:
+      tags:
+        - Produtos
+      operationId: "produtos.delete"
+      summary: "Exclui um produto"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: "Produto excluído com sucesso!"
+
+  /produtos/{id}/itens:
+    get:
+      operationId: "produtos.get_itens_by_produto"
+      tags:
+        - Produtos
+      summary: "Buscar os itens de um produto especifico"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Itens para o Produto consultado encontrado com sucesso"  
 
 
   /itens:
@@ -186,7 +209,7 @@ paths:
       responses:
         "200":
           description: "Item encontrado com sucesso"
-  
+
     put:
       tags:
         - Itens

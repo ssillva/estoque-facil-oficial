@@ -21,7 +21,37 @@
                     </li>
                 </ul>
             </div>
-            <a href="{{url_for('add_produto')}}" class="btn btn-success ml-auto">Adicionar Produto</a>
+                        <!-- Modal Adicionar Produto -->
+            <div class="modal fade" id="modalAdicionarProduto" tabindex="-1" role="dialog" aria-labelledby="modalAdicionarProdutoLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="modalAdicionarProdutoLabel">Adicionar Produto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                    <form id="formAdicionarProduto">
+                        <div class="form-group">
+                        <label for="addNome">Nome:</label>
+                        <input type="text" class="form-control" id="addNome" name="addNome">
+                        </div>
+                        <div class="form-group">
+                        <label for="addDescricao">Descrição:</label>
+                        <textarea class="form-control" id="addDescricao" name="addDescricao"></textarea>
+                        </div>
+                        <div class="form-group">
+                        <label for="addGrupo">Grupo:</label>
+                        <input type="text" class="form-control" id="addGrupo" name="addGrupo">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>
+  
         </div>
     </nav>
 
@@ -42,11 +72,53 @@
             </tbody>
         </table>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdicionarProduto">
-        Adicionar Produto
-    </button>
-
+    
     <script>
+        
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const formularioProduto = document.getElementById('formularioProduto');
+            const mensagemDiv = document.getElementById('mensagem');
+
+            formularioProduto.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const formData = new FormData(this);
+
+                const novoProduto = {};
+                for (let [key, value] of formData) {
+                    novoProduto[key] = value;
+                }
+
+                adicionarProduto(novoProduto);
+            });
+
+            function adicionarProduto(novoProduto) {
+                fetch('http://localhost:8000/api/produtos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(novoProduto)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        mensagemDiv.innerHTML = '<div class="alert alert-success" role="alert">Produto adicionado com sucesso!</div>';
+                    } else {
+                        mensagemDiv.innerHTML = '<div class="alert alert-danger" role="alert">Erro ao adicionar o produto. Você está tentando inserir o mesmo produto</div>';
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Resposta da API:', data);
+                    // Aqui você pode adicionar lógica adicional, se necessário
+                })
+                .catch(error => {
+                    mensagemDiv.innerHTML = '<div class="alert alert-danger" role="alert">Erro ao adicionar o produto.</div>';
+                    console.error('Erro ao adicionar o novo produto:', error);
+                });
+            }
+        });
         document.addEventListener("DOMContentLoaded", function() {
             const formEditarProduto = document.getElementById('formEditarProduto');
 

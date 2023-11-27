@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Itens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="/">Estoque Fácil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Produtos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#">Movimentação</a>
+                </li>
+                <!-- Adicione mais itens conforme necessário -->
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2>Listagem de Itens</h2>
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#modalAdd">Adicionar Item</button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID Patrimônio</th>
+                    <th>MAC</th>
+                    <th>Fonte</th>
+                    <th>Volts</th>
+                    <th>Ampere</th>
+                    <th>Observação</th>
+                    <th>Produto</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="itemTableBody"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal Adicionar Item -->
+    <div class="modal fade" id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="modalAddLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Formulário para adicionar itens -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAddLabel">Adicionar Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formAdicionarItem">
+                        <div class="form-group">
+                            <input type="hidden" id="idPatrimonio">
+                        </div>
+                        <div class="form-group">
+                            <label for="macItem">MAC:</label>
+                            <input type="text" class="form-control" id="macItem" placeholder="MAC do item">
+                        </div>
+                        <div class="form-group">
+                            <label for="fonteItem">Fonte:</label>
+                            <input type="text" class="form-control" id="fonteItem" placeholder="Fonte do item">
+                        </div>
+                        <div class="form-group">
+                            <label for="voltsItem">Volts:</label>
+                            <input type="number" step="1" class="form-control" id="voltsItem" placeholder="Volts do item">
+                        </div>
+                        <div class="form-group">
+                            <label for="ampereItem">Ampere:</label>
+                            <input type="number" step="any" class="form-control" id="ampereItem" placeholder="Ampere do item">
+                        </div>
+                        <div class="form-group">
+                            <label for="obsItem">Observação:</label>
+                            <input type="text" class="form-control" id="obsItem" placeholder="Observação do item">
+                        </div>
+                        <div class="form-group">
+                            <label for="produtoIdItem">Produto:</label>
+                            <select class="form-control" id="produtoIdItem">
+                                <!-- Options serão preenchidas dinamicamente com os nomes dos produtos -->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="adicionarItem()">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Editar Item -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditLabel">Editar Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarItem">
+                    <div class="form-group">
+                        <input type="hidden" id="editItemId">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMacItem">MAC:</label>
+                        <input type="text" class="form-control" id="editMacItem" placeholder="MAC do item">
+                    </div>
+                    <div class="form-group">
+                        <label for="editFonteItem">Fonte:</label>
+                        <input type="text" class="form-control" id="editFonteItem" placeholder="Fonte do item">
+                    </div>
+                    <div class="form-group">
+                        <label for="editVoltsItem">Volts:</label>
+                        <input type="number" step="1" class="form-control" id="editVoltsItem" placeholder="Volts do item">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAmpereItem">Ampere:</label>
+                        <input type="number" step="any" class="form-control" id="editAmpereItem" placeholder="Ampere do item">
+                    </div>
+                    <div class="form-group">
+                        <label for="editObsItem">Observação:</label>
+                        <input type="text" class="form-control" id="editObsItem" placeholder="Observação do item">
+                    </div>
+                    <div class="form-group">
+                        <label for="editProdutoIdItem">Produto:</label>
+                        <select class="form-control" id="editProdutoIdItem">
+                            <!-- Options serão preenchidas dinamicamente com os nomes dos produtos -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarEdicaoItem()">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function carregarItens() {
+                $.ajax({
+                    url: "http://localhost:8000/api/itens",
+                    method: "GET",
+                    success: function(data) {
+                        // Limpar tabela antes de adicionar os itens
+                        $("#itemTableBody").empty();
+
+                        // Iterar sobre os itens e adicionar à tabela
+                        $.each(data, function(index, item) {
+                            let row = `<tr>
+                                <td>${item.id_patrimonio}</td>
+                                <td>${item.mac}</td>
+                                <td>${item.fonte}</td>
+                                <td>${item.volts}</td>
+                                <td>${item.ampere}</td>
+                                <td>${item.obs}</td>
+                                <td>${item.produto_id}</td>
+                                <td>
+                                <button type="button" class="btn btn-warning btn-sm" onclick="editarItem(${item.id_patrimonio})">Editar</button>
+                                <button type="button" class="btn btn-danger btn-sm" onclick="excluirItem(${item.id_patrimonio})">Excluir</button>
+                                </td>
+                            </tr>`;
+
+                            $("#itemTableBody").append(row);
+                        });
+                    },
+                    error: function() {
+                        alert("Erro ao carregar itens.");
+                    }
+                });
+        }
+        
+        function editarItem(itemId) {
+                $.ajax({
+                    url: `http://localhost:8000/api/itens/${itemId}`,
+                    method: "GET",
+                    success: function(data) {
+                        $("#editItemId").val(data.id_patrimonio); // Defina o ID do item no campo oculto do modal
+
+                        // Preencha os campos do modal com os dados do item
+                        $("#editMacItem").val(data.mac);
+                        $("#editFonteItem").val(data.fonte);
+                        $("#editVoltsItem").val(data.volts);
+                        $("#editAmpereItem").val(data.ampere);
+                        $("#editObsItem").val(data.obs);
+                        $("#editProdutoIdItem").val(data.produto_id);
+                        // Aqui você pode carregar os produtos no campo de seleção, se necessário
+                        // Use a mesma lógica que foi usada para carregar produtos no modal de adição
+
+                        // Abra o modal de edição
+                        $("#modalEdit").modal("show");
+                    },
+                    error: function() {
+                        alert("Erro ao carregar dados do item para edição.");
+                    }
+                });
+        }
+
+
+        // Função para excluir um item
+        function excluirItem(itemId) {
+            if (confirm("Tem certeza que deseja excluir este item?")) {
+                // Aqui você pode implementar a lógica para excluir o item
+                // Use o ID do item para fazer uma requisição AJAX para deletar o item do backend
+                // por exemplo, faça uma requisição DELETE para 'http://localhost:8000/api/itens/' + itemId
+                // Exemplo:
+                $.ajax({
+                    url: `http://localhost:8000/api/itens/${itemId}`,
+                    method: "DELETE",
+                    success: function(response) {
+                        alert("Item excluído com sucesso!");
+                        carregarItens(); // Recarregue a tabela de itens após a exclusão
+                    },
+                    error: function() {
+                        alert("Erro ao excluir item.");
+                    }
+                });
+            }
+        }
+
+        // Função para adicionar um novo item
+        function adicionarItem() {
+            let novoItem = {
+                //id_patrimonio: $("#idPatrimonio").val(),
+                mac: $("#macItem").val(),
+                fonte: $("#fonteItem").val(),
+                volts: parseInt($("#voltsItem").val()),
+                ampere: parseFloat($("#ampereItem").val()),
+                obs: $("#obsItem").val(),
+                produto_id: parseInt($("#produtoIdItem").val()) // Este campo mostrará o nome do produto
+            };
+            $.ajax({
+            url: "http://localhost:8000/api/itens",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(novoItem),
+            success: function(response) {
+                alert("Item adicionado com sucesso!");
+                carregarItens();
+                //$("#idPatrimonio").val("");
+                $("#macItem").val("");
+                $("#fonteItem").val("");
+                $("#voltsItem").val("");
+                $("#ampereItem").val("");
+                $("#obsItem").val("");
+                $("#modalAdd").modal("hide");
+            },
+            error: function() {
+                alert("Erro ao adicionar item.");
+            }
+        });
+           
+        }
+
+        // Função para carregar os nomes dos produtos na lista de seleção
+        function carregarProdutos() {
+            $.ajax({
+                url: "http://localhost:8000/api/produtos",
+                method: "GET",
+                success: function(data) {
+                    // Limpar a lista de seleção antes de adicionar os produtos
+                    $("#produtoIdItem").empty();
+
+                    // Iterar sobre os produtos e adicionar na lista de seleção
+                    $.each(data, function(index, product) {
+                        // Adicionar cada produto como uma opção na lista de seleção
+                        $("#produtoIdItem").append(`<option value="${product.id}">${product.nome}</option>`);
+                    });
+                },
+                error: function() {
+                    alert("Erro ao carregar produtos.");
+                }
+            });
+        }
+        
+        function editarProdutos() {
+            $.ajax({
+                url: "http://localhost:8000/api/produtos",
+                method: "GET",
+                success: function(data) {
+                    // Limpar a lista de seleção antes de adicionar os produtos
+                    $("#editProdutoIdItem").empty();
+
+                    // Iterar sobre os produtos e adicionar na lista de seleção
+                    $.each(data, function(index, product) {
+                        // Adicionar cada produto como uma opção na lista de seleção
+                        $("#editProdutoIdItem").append(`<option value="${product.id}">${product.nome}</option>`);
+                    });
+                },
+                error: function() {
+                    alert("Erro ao carregar produtos.");
+                }
+            });
+        }
+
+        function salvarEdicaoItem() {
+            let itemId = $("#editItemId").val();
+
+            let itemEditado = {
+                mac: $("#editMacItem").val(),
+                fonte: $("#editFonteItem").val(),
+                volts: parseInt($("#editVoltsItem").val()),
+                ampere: parseFloat($("#editAmpereItem").val()),
+                obs: $("#editObsItem").val(),
+                produto_id: parseInt($("#editProdutoIdItem").val())
+            };
+
+            $.ajax({
+                url: `http://localhost:8000/api/itens/${itemId}`,
+                method: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(itemEditado),
+                success: function(response) {
+                    alert("Item editado com sucesso!");
+                    $("#modalEdit").modal("hide");
+                    carregarItens(); // Recarregue a tabela após a edição
+                },
+                error: function() {
+                    alert("Erro ao editar o item.");
+                }
+            });
+        }
+// Funções adicionais de edição, exclusão etc.
+
+        // Chamada para carregar os produtos ao carregar a página
+        $(document).ready(function() {
+            carregarProdutos(); // Chame esta função para preencher o select de produtos
+            editarProdutos();
+            carregarItens();
+        });
+    </script>
+</body>
+</html>

@@ -10,13 +10,11 @@ app.add_api(basedir / "estoquefacil.yml")
 
 @app.route("/")
 def home():
-    itens = Item.query.all()
-    return render_template("home2.html", itens=itens)
+    return render_template("produtos.html")
 
-@app.route("/add_produto")
-def add_produto():
-    return render_template("adicionarProduto.html")
-
+@app.route("/itens")
+def itens():
+    return render_template("itens.html")
 @app.app.before_request
 def create_tables():
     db.create_all()
