@@ -136,6 +136,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    // Função para preencher os campos do modal de edição com os dados do produto
+    function preencherCamposEdicao(id, nome, descricao, grupo) {
+        $("#editProductId").val(id);
+        $("#nomeEditProduto").val(nome);
+        $("#descricaoEditProduto").val(descricao);
+        $("#grupoEditProduto").val(grupo);
+    }
+
+    function createActionButton(itemId, nome, descricao, grupo) {
+    return `<div class="btn-group" role="group">
+                <button type="button" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#modalEdit" onclick="preencherCamposEdicao(${itemId}, '${nome}', '${descricao}', '${grupo}')">Editar</button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="excluirProduto(${itemId})">Excluir</button>
+                <button type="button" class="btn btn-info btn-sm" onclick="exibirDetalhes(${itemId})">Detalhes</button>
+            </div>`;
+    }
+    
     // Função para carregar os produtos da API
     function carregarProdutos() {
         $.ajax({
@@ -153,9 +169,7 @@
                         <td>${product.descricao}</td>
                         <td>${product.grupo}</td>
                         <td>
-                            <button type='button' class='btn btn-warning btn-sm' data-toggle='modal' data-target='#modalEdit' onclick='preencherCamposEdicao(${product.id}, "${product.nome}", "${product.descricao}", "${product.grupo}")'>Editar</button>
-                            <button type='button' class='btn btn-danger btn-sm' onclick='excluirProduto(${product.id})'>Excluir</button>
-                            <button type='button' class='btn btn-info btn-sm' onclick='exibirDetalhes(${product.id})'>Detalhes</button>
+                            ${createActionButton(product.id, product.nome, product.descricao, product.grupo)}
                         </td>
                     </tr>`;
 
@@ -193,13 +207,7 @@
         });
     }
 
-    // Função para preencher os campos do modal de edição com os dados do produto
-    function preencherCamposEdicao(id, nome, descricao, grupo) {
-        $("#editProductId").val(id);
-        $("#nomeEditProduto").val(nome);
-        $("#descricaoEditProduto").val(descricao);
-        $("#grupoEditProduto").val(grupo);
-    }
+    
 
     // Função para editar um produto
     function editarProduto() {
@@ -269,6 +277,8 @@
             }
         });
     }
+    
+    
     
     $(document).ready(function() {
         carregarProdutos();
