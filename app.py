@@ -15,6 +15,7 @@ def home():
 @app.route("/itens")
 def itens():
     return render_template("itens.html")
+
 @app.app.before_request
 def create_tables():
     db.create_all()
