@@ -28,7 +28,7 @@ function carregarItensProdutos() {
             method: "GET",
             success: function(data) {
                 $("#itemTableBody").empty();
-
+                data.sort((a, b) => a.id_patrimonio - b.id_patrimonio);
                 $.ajax({
                     url: `${API_URL}/produtos/${produtoId}`,
                     method: "GET",
@@ -228,8 +228,14 @@ carregarTodosItens();
             $("#obsItem").val("");
             $("#modalAdd").modal("hide");
         },
-        error: function() {
-            alert("Erro ao adicionar item.");
+        error: function(xhr, status, error) {
+            let errorMessage = "Erro ao adicionar esse produto.";
+
+            if (xhr.responseJSON && xhr.responseJSON.detail) {
+                errorMessage = xhr.responseJSON.detail;
+            }
+
+            alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
         }
     });
        
