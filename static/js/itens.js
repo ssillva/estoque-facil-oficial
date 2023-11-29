@@ -1,122 +1,176 @@
+const API_URL = "http://localhost:8000/api";
+//Função para padronizar a tabela
+function adicionarLinhaTabela(item, produto) {
+    let row = `<tr>
+        <td>${item.id_patrimonio}</td>
+        <td>${item.mac}</td>
+        <td>${item.fonte}</td>
+        <td>${item.volts}</td>
+        <td>${item.ampere}</td>
+        <td>${item.obs}</td>
+        <td>${produto.nome}</td>
+        <td>
+            <button type="button" class="btn btn-warning btn-sm" onclick="editarItem(${item.id_patrimonio})">Editar</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="excluirItem(${item.id_patrimonio})">Excluir</button>
+        </td>
+    </tr>`;
+
+    $("#itemTableBody").append(row);
+}
+
 function carregarItensProdutos() {
-    /*        $.ajax({
-                url: "http://localhost:8000/api/itens",
-                method: "GET",
-                success: function(data) {
-                    // Limpar tabela antes de adicionar os itens
-                    $("#itemTableBody").empty();
-*/
-            const urlParams = new URLSearchParams(window.location.search);
-            const produtoId = urlParams.get('produto');
+    const urlParams = new URLSearchParams(window.location.search);
+    const produtoId = urlParams.get('produto');
 
-            // Verifica se há um ID de produto na URL
-            if (produtoId) {
-                // Realiza uma requisição AJAX para obter os itens do produto específico
+    if (produtoId) {
+        $.ajax({
+            url: `${API_URL}/produtos/${produtoId}/itens`,
+            method: "GET",
+            success: function(data) {
+                $("#itemTableBody").empty();
+
                 $.ajax({
-                    url: `http://localhost:8000/api/produtos/${produtoId}/itens`,
+                    url: `${API_URL}/produtos/${produtoId}`,
                     method: "GET",
-                    success: function(data) {
-                        // Limpar tabela antes de adicionar os itens
-                        $("#itemTableBody").empty();
-                    // Iterar sobre os itens e adicionar à tabela
-                    //$.each(data, function(index, item) {
-                        // Carregar o nome do produto
-                        $.ajax({
-                            url: `http://localhost:8000/api/produtos/${produtoId}`,
-                            method: "GET",
-                            success: function(produto) {
-                                $("#nomeDoProduto").text(produto.nome); // Exibe o nome do produto na página
-                            },
-                            error: function() {
-                                alert("Erro ao carregar o nome do produto.");
-                            }
-                        });
-                        data.forEach(function(item) {
-                        let row = `<tr>
-                            <td>${item.id_patrimonio}</td>
-                            <td>${item.mac}</td>
-                            <td>${item.fonte}</td>
-                            <td>${item.volts}</td>
-                            <td>${item.ampere}</td>
-                            <td>${item.obs}</td>
-                            <td>${item.produto_id}</td>
-                            <td>
-                            <button type="button" class="btn btn-warning btn-sm" onclick="editarItem(${item.id_patrimonio})">Editar</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="excluirItem(${item.id_patrimonio})">Excluir</button>
-                            </td>
-                        </tr>`;
-
-                        $("#itemTableBody").append(row);
-                    });
-                },
-                error: function() {
-                    alert("Não há itens para esse produto.");
-                }
-            });
-        } else {
-            alert("ID do produto não encontrado na URL.");
-        }
-    }
-    
-    function carregarItens() {
-            $.ajax({
-                url: "http://localhost:8000/api/itens",
-                method: "GET",
-                success: function(data) {
-                    // Limpar tabela antes de adicionar os itens
-                    $("#nomeDoProduto").empty();
-                    $("#itemTableBody").empty();
-                    
+                    success: function(produto) {
+                        $("#nomeDoProduto").text(produto.nome);
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = "Erro ao carregar o nome do produto.";
             
-                    // Iterar sobre os itens e adicionar à tabela
-                    $.each(data, function(index, item) {
-                        $.ajax({
-                        url: `http://localhost:8000/api/produtos/${item.produto_id}`,
-                        method: "GET",
-                        success: function(produto) {
-                            let row = `<tr>
-                            <td>${item.id_patrimonio}</td>
-                            <td>${item.mac}</td>
-                            <td>${item.fonte}</td>
-                            <td>${item.volts}</td>
-                            <td>${item.ampere}</td>
-                            <td>${item.obs}</td>
-                            <td>${produto.nome}</td>
-                            <td>
-                            <button type="button" class="btn btn-warning btn-sm" onclick="editarItem(${item.id_patrimonio})">Editar</button>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="excluirItem(${item.id_patrimonio})">Excluir</button>
-                            </td>
-                        </tr>`;
-
-                        $("#itemTableBody").append(row);
-                    
-                },
-                    error: function() {
-                        alert("Erro ao obter o nome do produto.");
+                        if (xhr.responseJSON && xhr.responseJSON.detail) {
+                            errorMessage = xhr.responseJSON.detail;
+                        }
+            
+                        alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
                     }
                 });
-        });
-    },
-                    error: function() {
-                    alert("Não há itens para esse produto.");
-                }
 
+                data.forEach(function(item) {
+                    $.ajax({
+                        url: `${API_URL}/produtos/${item.produto_id}`,
+                        method: "GET",
+                        success: function(produto) {
+                            adicionarLinhaTabela(item, produto);
+                        },
+                        error: function(xhr, status, error) {
+                            let errorMessage = "Erro ao carregar o nome do produto.";
+                
+                            if (xhr.responseJSON && xhr.responseJSON.detail) {
+                                errorMessage = xhr.responseJSON.detail;
+                            }
+                
+                            alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
+                        }
+                    });
+                });
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = "Não há itens para esse produto.";
+    
+                if (xhr.responseJSON && xhr.responseJSON.detail) {
+                    errorMessage = xhr.responseJSON.detail;
+                }
+    
+                alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
+            }
+        });
+    } else {
+        alert("ID do produto não encontrado na URL.");
+    }
+}
+
+function carregarItens() {
+    $.ajax({
+        url: `${API_URL}/itens`,
+        method: "GET",
+        success: function(data) {
+            $("#nomeDoProduto").empty();
+            $("#itemTableBody").empty();
+
+            data.forEach(function(item) {
+                carregarProdutoItem(item);
             });
-        } 
+        },
+        error: function(xhr, status, error) {
+            let errorMessage = "Não há itens para esse produto.";
+
+            if (xhr.responseJSON && xhr.responseJSON.detail) {
+                errorMessage = xhr.responseJSON.detail;
+            }
+
+            alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
+        }
+    });
+}
+
+let todosItens = []; // Para armazenar todos os itens no carregamento da página
+
+function carregarTodosItens() {
+    $.ajax({
+        url: `${API_URL}/itens`,
+        method: "GET",
+        success: function(data) {
+            todosItens = data;
+        },
+        error: function(error) {
+            console.error("Erro ao carregar itens:", error);
+        }
+    });
+}
+// Função para exibir os itens correspondentes ao MAC digitado
+function exibirItensPorMAC(mac) {
+    $("#itemTableBody").empty();
+    const itensFiltrados = todosItens.filter(item => item.mac.toUpperCase().includes(mac.toUpperCase()));
+
+    if (itensFiltrados.length > 0) {
+        itensFiltrados.forEach(function(item) {
+            $.ajax({
+                url: `${API_URL}/produtos/${item.produto_id}`,
+                method: "GET",
+                success: function(produto) {
+                    adicionarLinhaTabela(item, produto);
+                },
+                error: function() {
+                    console.error("Erro ao obter o nome do produto.");
+                }
+            });
+        });
+    } else {
+        $("#itemTableBody").text("Nenhum item encontrado para o MAC digitado.");
+    }
+}
+
+// Evento de entrada no campo de busca por MAC
+$("#campoBuscaMAC").on("input", function() {
+    let valorBuscaMAC = $(this).val().toUpperCase();
+
+    if (valorBuscaMAC.length >= 3) {
+        exibirItensPorMAC(valorBuscaMAC);
+    } else if (valorBuscaMAC.length === 0) {
+        carregarItens();
+    } else {
+        $("#itemTableBody").empty();
+    }
+});
+
+// Carregar todos os itens ao carregar a página
+carregarTodosItens();
+
 
     function editarItem(itemId) {
             $.ajax({
-                url: `http://localhost:8000/api/itens/${itemId}`,
+                url: `${API_URL}/itens/${itemId}`,
                 method: "GET",
                 success: function(data) {
                     $("#editItemId").val(data.id_patrimonio); // Defina o ID do item no campo oculto do modal
 
                     // Preenche os campos do modal com os dados do item
-                    $("#editMacItem").val(data.mac);
-                    $("#editFonteItem").val(data.fonte);
+                    $("#editMacItem").val(data.mac.toUpperCase());
+                    $("#editFonteItem").val(data.fonte.toUpperCase());
                     $("#editVoltsItem").val(data.volts);
                     $("#editAmpereItem").val(data.ampere);
-                    $("#editObsItem").val(data.obs);
+                    $("#editObsItem").val(data.obs.toUpperCase());
                     $("#editProdutoIdItem").val(data.produto_id);
                     
                     // Abre o modal de edição
@@ -134,7 +188,7 @@ function carregarItensProdutos() {
         if (confirm("Tem certeza que deseja excluir este item?")) {
             
             $.ajax({
-                url: `http://localhost:8000/api/itens/${itemId}`,
+                url: `${API_URL}/itens/${itemId}`,
                 method: "DELETE",
                 success: function(response) {
                     alert("Item excluído com sucesso!");
@@ -151,15 +205,15 @@ function carregarItensProdutos() {
     function adicionarItem() {
         let novoItem = {
             //id_patrimonio: $("#idPatrimonio").val(),
-            mac: $("#macItem").val(),
-            fonte: $("#fonteItem").val(),
+            mac: $("#macItem").val().toUpperCase(),
+            fonte: $("#fonteItem").val().toUpperCase(),
             volts: parseInt($("#voltsItem").val()),
             ampere: parseFloat($("#ampereItem").val()),
-            obs: $("#obsItem").val(),
+            obs: $("#obsItem").val().toUpperCase(),
             produto_id: parseInt($("#produtoIdItem").val()) // Este campo mostrará o nome do produto
         };
         $.ajax({
-        url: "http://localhost:8000/api/itens",
+        url: `${API_URL}/itens`,
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(novoItem),
@@ -184,7 +238,7 @@ function carregarItensProdutos() {
     // Função para carregar os nomes dos produtos na lista de seleção
     function carregarProdutos() {
         $.ajax({
-            url: "http://localhost:8000/api/produtos",
+            url: `${API_URL}/produtos`,
             method: "GET",
             success: function(data) {
                 // Limpar a lista de seleção antes de adicionar os produtos
@@ -201,6 +255,19 @@ function carregarItensProdutos() {
             }
         });
     }
+// Função para carregar produto de um item
+function carregarProdutoItem(item) {
+    $.ajax({
+        url: `${API_URL}/produtos/${item.produto_id}`,
+        method: "GET",
+        success: function(produto) {
+            adicionarLinhaTabela(item, produto);
+        },
+        error: function() {
+            console.error("Erro ao obter o nome do produto.");
+        }
+    });
+}
     
     function editarProdutos() {
         $.ajax({
@@ -258,13 +325,14 @@ function carregarItensProdutos() {
         
     });*/
     $(document).ready(function() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const produtoId = urlParams.get('produto');
         carregarProdutos(); // Chama a função para preencher o select de produtos
         editarProdutos();
+        const urlParams = new URLSearchParams(window.location.search);
+        const produtoId = urlParams.get('produto');
+        
         if (produtoId) {
-            carregarItensProdutos(); // Chama a função para carregar os itens do produto específico
+            carregarItensProdutos();
         } else {
-            carregarItens(); // Chama a função para carregar todos os itens
+            carregarItens();
         }
-});
+    });

@@ -73,7 +73,15 @@ components:
       required: True
       schema:
         type: "integer"
-
+    
+    mac:
+      name: "mac"
+      description: "Busca Item pelo MAC do equipamento"
+      in: path
+      required: True
+      schema:
+        type: "string"
+    
     id_patrimonio:
       name: "id_patrimonio"
       description: "Busca Item pelo id do patrimônio"
@@ -197,6 +205,17 @@ paths:
         "201":
           description: "Item Cadastrado com sucesso!"
 
+  /itens/by-mac/{mac}:
+    get:
+      operationId: "itens.get_itens_by_mac"
+      tags:
+        - Itens
+      summary: "Buscar um item pelo MAC"
+      parameters:
+        - $ref: "#/components/parameters/mac"
+      responses:
+        "200":
+          description: "MAC encontrado com sucesso"
 
   /itens/{id_patrimonio}:
     get:

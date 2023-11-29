@@ -1,4 +1,4 @@
-from flask import abort, make_response, request
+from flask import abort, make_response, request, jsonify
 
 from config import db
 from models import Item, itens_schema, item_schema
@@ -26,8 +26,15 @@ def read_one(id_patrimonio):
     if item is not None:
         return item_schema.dump(item)
     else:
-        abort(404, f"Produto não encontrado")
+        abort(404, f"Item não encontrado")
 
+def get_itens_by_mac(mac):
+    existing_mac = Item.query.filter(Item.mac == mac).all()
+    if existing_mac:
+        return itens_schema.dump(existing_mac)
+    else:
+        abort(404, f"MAC não encontrado")
+    
 
 def update(id_patrimonio):
     item_req_json =  request.get_json()
