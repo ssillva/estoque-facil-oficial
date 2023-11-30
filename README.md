@@ -2,7 +2,14 @@
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
-Projeto que visa atender os requisitos para sistema de controle e gestão de Produtos e Itens em cooperação com Sistema MK-Auth para provedores de Internet
+Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sistemas Distribuídos, oferecendo um sistema de controle e gestão de Produtos e Itens, em cooperação com o Sistema MK-Auth para provedores de Internet.
+
+## Tecnologias Principais
+- Python
+- Flask (Framework)
+- MySQL
+- SQLAlchemy (ORM)
+- Frontend: jQuery, HTML
 
 ## Documentação
 ### Diagrama de Componentes
@@ -20,6 +27,7 @@ Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 ```console
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
+### Instalação Sistema Operacional Linux
 # Crie um ambiente virtual para facilitar.
 # ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
 
