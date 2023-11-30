@@ -21,7 +21,7 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
-## Instalação Sistema Operacional Linux
+## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
 
