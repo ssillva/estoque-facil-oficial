@@ -26,10 +26,10 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
 2 - Verifique se existe o Python instalado
 ```console
-dir> python --version
+seu diretório C:\> python --version
 ```
-
-
+Caso não tenha instalado o Python versão 3, clique abaixo para 
+![Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
