@@ -21,6 +21,15 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
+
+## Instalação no Sistema Operacional Windows
+1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
+2 - Verifique se existe o Python instalado
+```console
+dir> python --version
+```
+
+
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
