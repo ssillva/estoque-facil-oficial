@@ -31,7 +31,9 @@ seu diretório C:\> python --version
 Caso não tenha instalado o Python versão 3, clique abaixo para seguir tutorial de instalação:
 
 
-![Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
+Instalando Python 3 [Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
+
+
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
