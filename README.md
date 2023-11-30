@@ -21,15 +21,16 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
-# Baixando o projeto
+## Instalação Sistema Operacional Linux
+
+### Baixando o projeto
 
 Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 ```console
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
-### Instalação Sistema Operacional Linux
-# Crie um ambiente virtual para facilitar.
-# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
+### Crie um ambiente virtual para facilitar.
+### ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
 
 Python 2 não suporta a biblioteca connexion [swagger]
 
