@@ -39,11 +39,38 @@ Instalando Git [Download for Windows](https://git-scm.com/download/win)
 
 ### Baixando o projeto
 
-Crie um diretório, como exemplo criarei no diretório raiz C:/
+Crie um diretório, como exemplo criarei no diretório raiz C:/ o diretório app
 ```console
-C:/> mkdir app
-C:/> cd app
+C:\> mkdir app
+C:\> cd app
 ```
+
+No diretório app execute o comando:
+```console
+C:\app> git clone https://github.com/ssillva/estoque-facil-oficial
+C:\app> cd estoque-facil-oficial
+```
+Criando um ambiente virtual executando os comandos abaixo:
+```console
+C:\app> python -m venv venv
+C:\app> .\venv\Scripts\activate
+```
+
+Em seguida instale as dependências para executar a aplicação:
+
+```console
+C:\app> pip install - r requeriments.txt
+```
+
+Verifique no arquivo config.py qual conexão de Banco de dados você utilizará:
+
+Finalmente execute a aplicação
+```console
+C:\app> python app.py
+```
+
+
+
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
