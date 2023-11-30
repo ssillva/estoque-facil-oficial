@@ -2,7 +2,14 @@
 
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=for-the-badge)
 
-Projeto que visa atender os requisitos para sistema de controle e gestão de Produtos e Itens em cooperação com Sistema MK-Auth para provedores de Internet
+Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sistemas Distribuídos, oferecendo um sistema de controle e gestão de Produtos e Itens, em cooperação com o Sistema MK-Auth para provedores de Internet.
+
+## Tecnologias Principais
+- Python
+- Flask (Framework)
+- MySQL
+- SQLAlchemy (ORM)
+- Frontend: jQuery, HTML
 
 ## Documentação
 ### Diagrama de Componentes
@@ -14,14 +21,16 @@ Projeto que visa atender os requisitos para sistema de controle e gestão de Pro
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
-# Baixando o projeto
+## Instalação no Sistema Operacional Linux
+
+### Baixando o projeto
 
 Vá para o diretório dos seus projetos e execute o comando no terminal linux:
 ```console
 $ git clone https://github.com/ssillva/estoque-facil-oficial
 ```
-# Crie um ambiente virtual para facilitar.
-# ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
+### Crie um ambiente virtual para facilitar.
+### ATENÇÃO: O SISTEMA SÓ FUNCIONARÁ COM O PYTHON VERSÃO 3. 
 
 Python 2 não suporta a biblioteca connexion [swagger]
 
