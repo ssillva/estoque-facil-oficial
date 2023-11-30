@@ -59,6 +59,7 @@ C:\app> .\venv\Scripts\activate
 Em seguida instale as dependências para executar a aplicação:
 
 ```console
+(venv) C:\app> pip install --upgrade pip
 (venv) C:\app> pip install - r requeriments.txt
 ```
 
