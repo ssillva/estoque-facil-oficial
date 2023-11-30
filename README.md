@@ -28,7 +28,9 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ```console
 seu diretório C:\> python --version
 ```
-Caso não tenha instalado o Python versão 3, clique abaixo para 
+Caso não tenha instalado o Python versão 3, clique abaixo para seguir tutorial de instalação:
+
+
 ![Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
 ## Instalação no Sistema Operacional Linux
 
