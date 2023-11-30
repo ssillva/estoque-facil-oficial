@@ -59,14 +59,14 @@ C:\app> .\venv\Scripts\activate
 Em seguida instale as dependências para executar a aplicação:
 
 ```console
-C:\app> pip install - r requeriments.txt
+(venv) C:\app> pip install - r requeriments.txt
 ```
 
 Verifique no arquivo config.py qual conexão de Banco de dados você utilizará:
 
 Finalmente execute a aplicação
 ```console
-C:\app> python app.py
+(venv) C:\app> python app.py
 ```
 
 
