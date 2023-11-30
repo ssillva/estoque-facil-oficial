@@ -21,6 +21,57 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
+
+## Instalação no Sistema Operacional Windows
+1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
+2 - Verifique se existe o Python instalado
+```console
+seu diretório C:\> python --version
+```
+Caso não tenha instalado o Python versão 3, clique abaixo para seguir tutorial de instalação:
+
+
+Instalando Python 3 [Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
+
+Certifique-se também que tenha instalado o git
+
+Instalando Git [Download for Windows](https://git-scm.com/download/win)
+
+### Baixando o projeto
+
+Crie um diretório, como exemplo criarei no diretório raiz C:/ o diretório app
+```console
+C:\> mkdir app
+C:\> cd app
+```
+
+No diretório app execute o comando:
+```console
+C:\app> git clone https://github.com/ssillva/estoque-facil-oficial
+C:\app> cd estoque-facil-oficial
+```
+Criando um ambiente virtual executando os comandos abaixo:
+```console
+C:\app> python -m venv venv
+C:\app> .\venv\Scripts\activate
+```
+
+Em seguida instale as dependências para executar a aplicação:
+
+```console
+(venv) C:\app> python.exe -m pip install --upgrade pip
+(venv) C:\app> pip install - r requeriments.txt
+```
+
+Verifique no arquivo config.py qual conexão de Banco de dados você utilizará:
+
+Finalmente execute a aplicação
+```console
+(venv) C:\app> python app.py
+```
+
+
+
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
@@ -38,6 +89,12 @@ Execute no terminal a sequência de comandos a seguir:
 ```console
 $ cd estoque-facil=oficial
 ```
+Caso não tenha instalado em sua máquina o Virtual Environments para ambientes virtuais de desenvolvimento
+
+```console
+$ apt-get install python3-venv
+```
+
 ```console
 $ python3 -m venv venv
 ```
