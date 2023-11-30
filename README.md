@@ -33,7 +33,17 @@ Caso não tenha instalado o Python versão 3, clique abaixo para seguir tutorial
 
 Instalando Python 3 [Instalando o Python 3 no Windows](https://python.org.br/instalacao-windows/)
 
+Certifique-se também que tenha instalado o git
 
+Instalando Git [Download for Windows](https://git-scm.com/download/win)
+
+### Baixando o projeto
+
+Crie um diretório, como exemplo criarei no diretório raiz C:/
+```console
+C:/> mkdir app
+C:/> cd app
+```
 ## Instalação no Sistema Operacional Linux
 
 ### Baixando o projeto
