@@ -38,6 +38,12 @@ Execute no terminal a sequência de comandos a seguir:
 ```console
 $ cd estoque-facil=oficial
 ```
+Caso não tenha instalado em sua máquina o Virtual Environments para ambientes virtuais de desenvolvimento
+
+```console
+$ apt-get install python3-venv
+```
+
 ```console
 $ python3 -m venv venv
 ```
