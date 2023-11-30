@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciamento de Movimentação de Itens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navegador de Páginas-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Estoque Fácil</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">ProdutosItens</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/itens">Itens</a>
+                </li>
+                <!-- Adicione mais itens conforme necessário -->
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container mt-5">
+        <h2>Movimentação de Itens</h2>
+        <form id="formMovimentacao">
+            <div class="form-group">
+                <label for="tipoMovimento">Tipo de Movimento:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoMovimento" id="entrada" value="entrada" checked>
+                    <label class="form-check-label" for="entrada">Entrada</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="tipoMovimento" id="saida" value="saida">
+                    <label class="form-check-label" for="saida">Saída</label>
+                </div>
+            </div>
+
+            <div id="camposEntrada">
+                <div class="form-group">
+                    <label for="dataEntrada">Data:</label>
+                    <input type="date" class="form-control" id="dataEntrada" name="dataEntrada">
+                </div>
+                <div class="form-group">
+                    <label for="qtdEntrada">Qtd:</label>
+                    <input type="number" class="form-control" id="qtdEntrada" name="qtdEntrada">
+                </div>
+                <div class="form-group">
+                    <label for="motivoEntrada">Motivo:</label>
+                    <input type="text" class="form-control" id="motivoEntrada" name="motivoEntrada">
+                </div>
+                <div class="form-group">
+                    <label for="origemEntrada">Origem:</label>
+                    <input type="text" class="form-control" id="origemEntrada" name="origemEntrada">
+                </div>
+                <div class="form-group">
+                    <label for="docEntrada">Documento:</label>
+                    <input type="text" class="form-control" id="docEntrada" name="docEntrada">
+                </div>
+                <div class="form-group">
+                    <label for="obsEntrada">Observações:</label>
+                    <textarea class="form-control" id="obsEntrada" name="obsEntrada" rows="3"></textarea>
+                </div>
+            </div>
+
+            <div id="camposSaida" style="display: none;">
+                <div class="form-group">
+                    <label for="dataSaida">Data:</label>
+                    <input type="date" class="form-control" id="dataSaida" name="dataSaida">
+                </div>
+                <div class="form-group">
+                    <label for="qtdSaida">Qtd:</label>
+                    <input type="number" class="form-control" id="qtdSaida" name="qtdSaida">
+                </div>
+                <div class="form-group">
+                    <label for="motivoSaida">Motivo:</label>
+                    <input type="text" class="form-control" id="motivoSaida" name="motivoSaida">
+                </div>
+                <div class="form-group">
+                    <label for="destinoSaida">Destino:</label>
+                    <input type="text" class="form-control" id="destinoSaida" name="destinoSaida">
+                </div>
+                <div class="form-group">
+                    <label for="obsSaida">Observações:</label>
+                    <textarea class="form-control" id="obsSaida" name="obsSaida" rows="3"></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+    <!-- Seus scripts JavaScript para manipular os formulários e fazer chamadas à API -->
+    <script>
+        const camposEntrada = document.getElementById('camposEntrada');
+        const camposSaida = document.getElementById('camposSaida');
+        const tipoMovimento = document.getElementsByName('tipoMovimento');
+
+        for (let i = 0; i < tipoMovimento.length; i++) {
+            tipoMovimento[i].addEventListener('change', function() {
+                if (this.value === 'entrada') {
+                    camposEntrada.style.display = 'block';
+                    camposSaida.style.display = 'none';
+                } else {
+                    camposEntrada.style.display = 'none';
+                    camposSaida.style.display = 'block';
+                }
+            });
+        }
+        
+        // Adicione aqui a lógica para enviar os dados do formulário para a API
+        // Usando JavaScript para capturar os valores dos campos e fazer a chamada AJAX
+    </script>
+    
+    <!-- Scripts Bootstrap e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

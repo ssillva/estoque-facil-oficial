@@ -16,6 +16,10 @@ def home():
 def itens():
     return render_template("itens.html")
 
+@app.route("/movimento")
+def movimento():
+    return render_template("movimento.html")
+
 @app.app.before_request
 def create_tables():
     db.create_all()

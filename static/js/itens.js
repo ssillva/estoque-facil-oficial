@@ -1,4 +1,7 @@
 const API_URL = "http://localhost:8000/api";
+let todosItens = []; // Para armazenar todos os itens no carregamento da página
+let produtos = {}; // Variável global para armazenar os produtos
+
 //Função para padronizar a tabela
 function adicionarLinhaTabela(item, produto) {
     let row = `<tr>
@@ -18,6 +21,20 @@ function adicionarLinhaTabela(item, produto) {
     $("#itemTableBody").append(row);
 }
 
+function carregarNomesProdutos() {
+    $.ajax({
+        url: `${API_URL}/produtos`,
+        method: "GET",
+        success: function(data) {
+            data.forEach(function(product) {
+                produtos[product.id] = product.nome;
+            });
+        },
+        error: function() {
+            alert("Erro ao carregar produtos.");
+        }
+    });
+}
 function carregarItensProdutos() {
     const urlParams = new URLSearchParams(window.location.search);
     const produtoId = urlParams.get('produto');
@@ -73,6 +90,7 @@ function carregarItensProdutos() {
                 }
     
                 alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
+                carregarItens();
             }
         });
     } else {
@@ -85,9 +103,12 @@ function carregarItens() {
         url: `${API_URL}/itens`,
         method: "GET",
         success: function(data) {
+            todosItens = data; // Atualiza a variável global 'todosItens'
             $("#nomeDoProduto").empty();
             $("#itemTableBody").empty();
-
+            //carrega os nome de produtos
+            carregarNomesProdutos();
+            
             data.forEach(function(item) {
                 carregarProdutoItem(item);
             });
@@ -104,20 +125,6 @@ function carregarItens() {
     });
 }
 
-let todosItens = []; // Para armazenar todos os itens no carregamento da página
-
-function carregarTodosItens() {
-    $.ajax({
-        url: `${API_URL}/itens`,
-        method: "GET",
-        success: function(data) {
-            todosItens = data;
-        },
-        error: function(error) {
-            console.error("Erro ao carregar itens:", error);
-        }
-    });
-}
 // Função para exibir os itens correspondentes ao MAC digitado
 function exibirItensPorMAC(mac) {
     $("#itemTableBody").empty();
@@ -145,7 +152,7 @@ function exibirItensPorMAC(mac) {
 $("#campoBuscaMAC").on("input", function() {
     let valorBuscaMAC = $(this).val().toUpperCase();
 
-    if (valorBuscaMAC.length >= 3) {
+    if (valorBuscaMAC.length >= 1) {
         exibirItensPorMAC(valorBuscaMAC);
     } else if (valorBuscaMAC.length === 0) {
         carregarItens();
@@ -154,33 +161,30 @@ $("#campoBuscaMAC").on("input", function() {
     }
 });
 
-// Carregar todos os itens ao carregar a página
-carregarTodosItens();
 
+function editarItem(itemId) {
+        $.ajax({
+            url: `${API_URL}/itens/${itemId}`,
+            method: "GET",
+            success: function(data) {
+                $("#editItemId").val(data.id_patrimonio); // Defina o ID do item no campo oculto do modal
 
-    function editarItem(itemId) {
-            $.ajax({
-                url: `${API_URL}/itens/${itemId}`,
-                method: "GET",
-                success: function(data) {
-                    $("#editItemId").val(data.id_patrimonio); // Defina o ID do item no campo oculto do modal
-
-                    // Preenche os campos do modal com os dados do item
-                    $("#editMacItem").val(data.mac.toUpperCase());
-                    $("#editFonteItem").val(data.fonte.toUpperCase());
-                    $("#editVoltsItem").val(data.volts);
-                    $("#editAmpereItem").val(data.ampere);
-                    $("#editObsItem").val(data.obs.toUpperCase());
-                    $("#editProdutoIdItem").val(data.produto_id);
-                    
-                    // Abre o modal de edição
-                    $("#modalEdit").modal("show");
-                },
-                error: function() {
-                    alert("Erro ao carregar dados do item para edição.");
-                }
-            });
-    }
+                // Preenche os campos do modal com os dados do item
+                $("#editMacItem").val(data.mac.toUpperCase());
+                $("#editFonteItem").val(data.fonte.toUpperCase());
+                $("#editVoltsItem").val(data.volts);
+                $("#editAmpereItem").val(data.ampere);
+                $("#editObsItem").val(data.obs.toUpperCase());
+                $("#editProdutoIdItem").val(data.produto_id);
+                
+                // Abre o modal de edição
+                $("#modalEdit").modal("show");
+            },
+            error: function() {
+                alert("Erro ao carregar dados do item para edição.");
+            }
+        });
+}
 
 
     // Função para excluir um item
@@ -201,8 +205,8 @@ carregarTodosItens();
         }
     }
 
-    // Função para adicionar um novo item
-    function adicionarItem() {
+// Função para adicionar um novo item
+function adicionarItem() {
         let novoItem = {
             //id_patrimonio: $("#idPatrimonio").val(),
             mac: $("#macItem").val().toUpperCase(),
@@ -238,31 +242,32 @@ carregarTodosItens();
             alert(errorMessage); // Exibe a mensagem de erro vinda do servidor
         }
     });
-       
-    }
+    
+}
 
-    // Função para carregar os nomes dos produtos na lista de seleção
-    function carregarProdutos() {
-        $.ajax({
-            url: `${API_URL}/produtos`,
-            method: "GET",
-            success: function(data) {
-                // Limpar a lista de seleção antes de adicionar os produtos
-                $("#produtoIdItem").empty();
+// Função para carregar os nomes dos produtos na lista de seleção
+function carregarProdutos() {
+    $.ajax({
+        url: `${API_URL}/produtos`,
+        method: "GET",
+        success: function(data) {
+            // Limpar a lista de seleção antes de adicionar os produtos
+            $("#produtoIdItem").empty();
 
-                // Iterar sobre os produtos e adicionar na lista de seleção
-                $.each(data, function(index, product) {
-                    // Adicionar cada produto como uma opção na lista de seleção
-                    $("#produtoIdItem").append(`<option value="${product.id}">${product.nome}</option>`);
-                });
-            },
-            error: function() {
-                alert("Erro ao carregar produtos.");
-            }
-        });
-    }
+            // Iterar sobre os produtos e adicionar na lista de seleção
+            $.each(data, function(index, product) {
+                // Adicionar cada produto como uma opção na lista de seleção
+                $("#produtoIdItem").append(`<option value="${product.id}">${product.nome}</option>`);
+            });
+        },
+        error: function() {
+            alert("Erro ao carregar produtos.");
+        }
+    });
+}
 // Função para carregar produto de um item
 function carregarProdutoItem(item) {
+    //adicionarLinhaTabela(item, { nome: produtos[item.produto_id] });
     $.ajax({
         url: `${API_URL}/produtos/${item.produto_id}`,
         method: "GET",
@@ -277,7 +282,7 @@ function carregarProdutoItem(item) {
     
     function editarProdutos() {
         $.ajax({
-            url: "http://localhost:8000/api/produtos",
+            url: `${API_URL}/produtos`,
             method: "GET",
             success: function(data) {
                 // Limpar a lista de seleção antes de adicionar os produtos
@@ -299,16 +304,16 @@ function carregarProdutoItem(item) {
         let itemId = $("#editItemId").val();
 
         let itemEditado = {
-            mac: $("#editMacItem").val(),
-            fonte: $("#editFonteItem").val(),
+            mac: $("#editMacItem").val().toUpperCase(),
+            fonte: $("#editFonteItem").val().toUpperCase(),
             volts: parseInt($("#editVoltsItem").val()),
             ampere: parseFloat($("#editAmpereItem").val()),
-            obs: $("#editObsItem").val(),
+            obs: $("#editObsItem").val().toUpperCase(),
             produto_id: parseInt($("#editProdutoIdItem").val())
         };
 
         $.ajax({
-            url: `http://localhost:8000/api/itens/${itemId}`,
+            url: `${API_URL}/itens/${itemId}`,
             method: "PUT",
             contentType: "application/json",
             data: JSON.stringify(itemEditado),
@@ -323,13 +328,6 @@ function carregarProdutoItem(item) {
         });
     }
 
-    /* Chamada para carregar os produtos ao carregar a página
-    $(document).ready(function() {
-        
-        carregarItens();
-        carregarItensProdutos();
-        
-    });*/
     $(document).ready(function() {
         carregarProdutos(); // Chama a função para preencher o select de produtos
         editarProdutos();

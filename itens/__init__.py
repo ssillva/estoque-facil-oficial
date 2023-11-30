@@ -1,4 +1,4 @@
-from flask import abort, make_response, request, jsonify
+from flask import abort, make_response, request
 
 from config import db
 from models import Item, itens_schema, item_schema
