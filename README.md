@@ -4,7 +4,7 @@
 
 Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sistemas Distribuídos, oferecendo um sistema de controle e gestão de Produtos e Itens, em cooperação com o Sistema MK-Auth para provedores de Internet.
 
-## Tecnologias Principais
+## Principais Tecnologias
 - Python
 - Flask (Framework)
 - MySQL
