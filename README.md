@@ -21,7 +21,10 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
+### Documentação API
+Com o aplicação em execução, a documentação pode ser acessada no endereço, onde local host é o endereço onde está hospedada a aplicação 
 
+[Documentação da API](http://localhost:8000/api/ui/)
 ## Instalação no Sistema Operacional Windows
 1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
 
