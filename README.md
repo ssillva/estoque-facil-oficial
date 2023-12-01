@@ -22,9 +22,9 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
 ### Documentação API
-Com o aplicação em execução, a documentação pode ser acessada no endereço, onde local host é o endereço onde está hospedada a aplicação 
+Com o aplicação em execução, a documentação pode ser acessada no endereço onde está hospedada a aplicação, no exemplo abaixo o endereço é localhost na porta 8000 rota api/ui
 
-[Documentação da API](http://localhost:8000/api/ui/)
+[Documentação da API http://localhost:8000/api/ui](http://localhost:8000/api/ui/)
 ## Instalação no Sistema Operacional Windows
 1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
 
