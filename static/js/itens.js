@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000/api";
+const API_URL = "http://172.31.255.2:8000/api";
 let todosItens = []; // Para armazenar todos os itens no carregamento da página
 let produtos = {}; // Variável global para armazenar os produtos
 

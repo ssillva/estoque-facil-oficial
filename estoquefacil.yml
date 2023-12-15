@@ -22,6 +22,29 @@ components:
           type: "string"
         grupo:
           type: "string"
+        uuid_produto:
+          type: "string"
+        idforn:
+          type: "integer"
+        precoatual:
+          type: "number"
+        precovelho:
+          type: "number"
+        ultalteracao:
+          type: "number"
+        peso:
+          type: "number"
+        ativo:
+          type: "string"
+        codbarras:
+          type: "string"
+        med:
+          type: "string"
+        aplicacao:
+          type: "string"
+          description: Campo para inserir textos longos ou extensos
+        codigo:
+          type: "string"
 
     Item:
       type: "object"
@@ -30,14 +53,12 @@ components:
       properties:
         mac:
           type: "string"
-        fonte:
-          type: "string"
-        volts:
-          type: "integer"
-        ampere:
-          type: "number"
         obs:
           type: "string"
+        valor_compra:
+          type: "number"
+        fornecedor_id:
+          type: "integer"
         produto_id:
           type: "integer"
     
@@ -45,25 +66,57 @@ components:
       type: "object"
       required:
         - "item_id"
+        - "user_id"
+        - "local_id"
       properties:
         documento:
           type: "string"
-        qtd:
-          type: "integer"
         motivo:
-          type: "string"
-        origem:
-          type: "string"
-        destino:
           type: "string"
         tipo:
           type: "string"
-        obs_movimento:
+        obs:
           type: "string"
+        contraparte:
+          type: "string"
+          description: Campo para distinguir se equipamento veio de cliente ou fornecedor
+        contraparte_id:
+          type: "integer"
+          description: Campo para código do cliente ou fornecedor
         item_id:
           type: "integer"
         user_id:
           type: "integer"
+        local_id:
+          type: "integer"
+
+    User:
+      type: "object"
+      required:
+        - "email"
+      properties:
+        uuid_acesso:
+          type: "string"
+        login:
+          type: "string"
+        email:
+          type: "string"
+
+    Cliente:
+      type: "object"
+      required:
+        - "nome"
+      properties:
+        nome:
+          type: "string"
+
+    Fornecedor:
+      type: "object"
+      required:
+        - "razaosoc"
+      properties:
+        razaosoc:
+          type: "string"
 
   parameters:
     id:
@@ -82,8 +135,8 @@ components:
       schema:
         type: "string"
     
-    id_patrimonio:
-      name: "id_patrimonio"
+    patrimonio:
+      name: "patrimonio"
       description: "Busca Item pelo id do patrimônio"
       in: path
       required: True
@@ -91,12 +144,37 @@ components:
         type: "integer"
     
     id_movimento:
-      name: "id_movimento"
+      name: "id"
       description: "Busca movimento pelo id do movimento"
       in: path
       required: True
       schema:
         type: "integer"
+    
+    idacesso:
+      name: "idacesso"
+      description: "Buscar user pelo id"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
+    idcliente:
+      name: "id"
+      description: "Buscar Cliente pelo id"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
+    idfornecedor:
+      name: "id"
+      description: "Buscar Fornecedor pelo id"
+      in: path
+      required: True
+      schema:
+        type: "integer"
+
 paths:
   /produtos:
     get:
@@ -217,14 +295,14 @@ paths:
         "200":
           description: "MAC encontrado com sucesso"
 
-  /itens/{id_patrimonio}:
+  /itens/{patrimonio}:
     get:
       operationId: "itens.read_one"
       tags:
         - Itens
       summary: "Buscar um item cadastrado"
       parameters:
-        - $ref: "#/components/parameters/id_patrimonio"
+        - $ref: "#/components/parameters/patrimonio"
       responses:
         "200":
           description: "Item encontrado com sucesso"
@@ -235,7 +313,7 @@ paths:
       operationId: "itens.update"
       summary: "Alterar item cadastrado"
       parameters:
-        - $ref: "#/components/parameters/id_patrimonio"
+        - $ref: "#/components/parameters/patrimonio"
       responses:
         "200":
           description: "Alteração efetuada com sucesso"
@@ -252,7 +330,7 @@ paths:
       operationId: "itens.delete"
       summary: "Exclui um item"
       parameters:
-        - $ref: "#/components/parameters/id_patrimonio"
+        - $ref: "#/components/parameters/patrimonio"
       responses:
         "204":
           description: "Item excluído com sucesso!"
@@ -284,14 +362,14 @@ paths:
         "201":
           description: "Movimento Cadastrado com sucesso!"
 
-  /movimento/{id_movimento}:
+  /movimento/{id}:
     get:
       operationId: "movimento.read_one"
       tags:
         - Movimento
       summary: "Lista um movimento de entrada ou saida"
       parameters:
-        - $ref: "#/components/parameters/id_movimento"
+        - $ref: "#/components/parameters/id"
       responses:
         "200":
           description: "Movimento encontrado!"
@@ -302,7 +380,7 @@ paths:
       operationId: "movimento.update"
       summary: "Altera um produto"
       parameters:
-        - $ref: "#/components/parameters/id_movimento"
+        - $ref: "#/components/parameters/id"
       responses:
         "200":
           description: "Alteração efetuada com sucesso"
@@ -319,7 +397,73 @@ paths:
       operationId: "movimento.delete"
       summary: "Exclui um movimento de entrada ou saida"
       parameters:
-        - $ref: "#/components/parameters/id_movimento"
+        - $ref: "#/components/parameters/id"
       responses:
         "204":
           description: "Movimento excluído com sucesso!"
+
+  /user:
+    get:
+      operationId: "user.read_all"
+      tags:
+        - "User"
+      summary: "Lista os usuários cadastrados no MK-Auth"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso!"
+  
+  /user/{idacesso}:
+    get:
+      operationId: "user.read_one"
+      tags:
+        - User
+      summary: "Lista um usuário por id"
+      parameters:
+        - $ref: "#/components/parameters/idacesso"
+      responses:
+        "200":
+          description: "Usuário encontrado!"
+
+  /cliente:
+    get:
+      operationId: "cliente.read_all"
+      tags:
+        - "Cliente"
+      summary: "Lista os clientes cadastrados no MK-Auth"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso!"
+  
+  /cliente/{id}:
+    get:
+      operationId: "cliente.read_one"
+      tags:
+        - Cliente
+      summary: "Lista um cliente em específico por id"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Cliente encontrado!"
+
+  /fornecedor:
+    get:
+      operationId: "fornecedor.read_all"
+      tags:
+        - "Fornecedor"
+      summary: "Lista os Fornecedores cadastrados no MK-Auth"
+      responses:
+        "200":
+          description: "Consulta realizada com sucesso!"
+  
+  /fornecedor/{id}:
+    get:
+      operationId: "fornecedor.read_one"
+      tags:
+        - Fornecedor
+      summary: "Lista um fornecedor em específico por id"
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: "Fornecedor encontrado!"

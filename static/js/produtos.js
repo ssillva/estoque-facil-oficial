@@ -1,3 +1,4 @@
+const API_URL = "http://172.31.255.2:8000/api";
 // Função para preencher os campos do modal de edição com os dados do produto
 function preencherCamposEdicao(id, nome, descricao, grupo) {
     $("#editProductId").val(id);
@@ -17,7 +18,7 @@ return `<div class="btn-group" role="group">
 // Função para carregar os produtos da API
 function carregarProdutos() {
     $.ajax({
-        url: "http://localhost:8000/api/produtos",
+        url: `${API_URL}/produtos`,
         method: "GET",
         success: function(data) {
             // Limpar tabela antes de adicionar os produtos
@@ -51,7 +52,7 @@ function adicionarProduto() {
     };
 
     $.ajax({
-        url: "http://localhost:8000/api/produtos",
+        url: `${API_URL}/produtos`,
         method: "POST",
         contentType: "application/json",
         data: JSON.stringify(novoProduto),
@@ -81,7 +82,7 @@ function editarProduto() {
     };
 
     $.ajax({
-        url: `http://localhost:8000/api/produtos/${id}`,
+        url: `${API_URL}/produtos/${id}`,
         method: "PUT",
         contentType: "application/json",
         data: JSON.stringify(produtoAtualizado),
@@ -100,7 +101,7 @@ function editarProduto() {
 function excluirProduto(id) {
     if (confirm("Tem certeza que deseja excluir este produto?")) {
         $.ajax({
-            url: `http://localhost:8000/api/produtos/${id}`,
+            url: `${API_URL}/produtos/${id}`,
             method: "DELETE",
             success: function(response) {
                 alert("Produto excluído com sucesso!");

@@ -20,8 +20,8 @@ def create():
     else:
         abort(406, f"Este MAC já foi cadastro no sistema!")
 
-def read_one(id_patrimonio):
-    item = Item.query.filter(Item.id_patrimonio == id_patrimonio).one_or_none()
+def read_one(patrimonio):
+    item = Item.query.filter(Item.patrimonio == patrimonio).one_or_none()
 
     if item is not None:
         return item_schema.dump(item)
@@ -36,18 +36,20 @@ def get_itens_by_mac(mac):
         abort(404, f"MAC não encontrado")
     
 
-def update(id_patrimonio):
+def update(patrimonio):
     item_req_json =  request.get_json()
-    existing_item = Item.query.filter(Item.id_patrimonio == id_patrimonio).one_or_none()
+    existing_item = Item.query.filter(Item.patrimonio == patrimonio).one_or_none()
 
     if existing_item:
         update_item = item_schema.load(item_req_json, session=db.session)
         existing_item.mac = update_item.mac
-        existing_item.fonte = update_item.fonte
-        existing_item.volts = update_item.volts
-        existing_item.ampere = update_item.ampere
+        #existing_item.fonte = update_item.fonte
+        #existing_item.volts = update_item.volts
+        #existing_item.ampere = update_item.ampere
         existing_item.obs = update_item.obs
+        existing_item.valor_compra = update_item.valor_compra
         existing_item.produto_id = update_item.produto_id
+        existing_item.fornecedor_id = update_item.fornecedor_id
         db.session.merge(existing_item)
         db.session.commit()
         return item_schema.dump(existing_item), 201
@@ -55,8 +57,8 @@ def update(id_patrimonio):
         abort(404, f"Item com informações não encontrado")
 
 
-def delete(id_patrimonio):
-    existing_item = Item.query.filter(Item.id_patrimonio == id_patrimonio).one_or_none()
+def delete(patrimonio):
+    existing_item = Item.query.filter(Item.patrimonio == patrimonio).one_or_none()
 
     if existing_item:
         db.session.delete(existing_item)

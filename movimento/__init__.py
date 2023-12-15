@@ -24,8 +24,8 @@ def create():
         abort(406, f"O documento {documento} possui cadastro no sistema!")
 
 
-def read_one(id_movimento):
-    movimento = Movimento.query.filter(Movimento.id_movimento == id_movimento).one_or_none()
+def read_one(id):
+    movimento = Movimento.query.filter(Movimento.id == id).one_or_none()
 
     if movimento is not None:
         return movimento_schema.dump(movimento)
@@ -40,14 +40,15 @@ def update(id_movimento, movimento):
     if existing_item:
         update_item = movimento_schema.load(movimento, session=db.session)
         existing_item.documento = update_item.documento
-        existing_item.qtd = update_item.qtd
+        #existing_item.qtd = update_item.qtd
         existing_item.motivo = update_item.motivo
-        existing_item.origem = update_item.origem
-        existing_item.destino = update_item.destino
         existing_item.tipo = update_item.tipo
-        existing_item.obs_movimento = update_item.obs_movimento
-        existing_item.item_id = update_item.item_id
+        existing_item.obs = update_item.obs
+        existing_item.contraparte = update_item.contraparte
+        existing_item.contraparte_id = update_item.contraparte_id
+        existing_item.item_produto_id = update_item.item_produto_id
         existing_item.user_id = update_item.user_id
+        existing_item.local_id = update_item.local_id
         db.session.merge(existing_item)
         db.session.commit()
         return movimento_schema.dump(existing_item), 201
@@ -55,8 +56,8 @@ def update(id_movimento, movimento):
         abort(404, f"Movimento com informações não encontrado")
 
 
-def delete(id_movimento):
-    existing_movimento = Movimento.query.filter(Movimento.id_movimento == id_movimento).one_or_none()
+def delete(id):
+    existing_movimento = Movimento.query.filter(Movimento.id == id).one_or_none()
 
     if existing_movimento:
         db.session.delete(existing_movimento)
