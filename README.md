@@ -4,7 +4,7 @@
 
 Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sistemas Distribuídos, oferecendo um sistema de controle e gestão de Produtos e Itens, em cooperação com o Sistema MK-Auth para provedores de Internet.
 
-## Tecnologias Principais
+## Principais Tecnologias
 - Python
 - Flask (Framework)
 - MySQL
@@ -21,9 +21,13 @@ Este é um projeto desenvolvido para atender aos requisitos da disciplina de Sis
 ### Documento de Visão
 * [Documento de Visão](https://github.com/ssillva/estoque-facil-oficial/blob/master/docs/Documento%20de%20Vis%C3%A3o.pdf)
 
+### Documentação API
+Com o aplicação em execução, a documentação pode ser acessada no endereço onde está hospedada a aplicação, no exemplo abaixo o endereço é localhost na porta 8000 rota api/ui
 
+* [Documentação da API http://localhost:8000/api/ui](http://localhost:8000/api/ui/)
 ## Instalação no Sistema Operacional Windows
 1 - Faça a combinação de teclas Windows + r e digite cmd no campo abrir do executar
+
 2 - Verifique se existe o Python instalado
 ```console
 seu diretório C:\> python --version
